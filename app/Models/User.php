@@ -27,7 +27,8 @@ class User extends Authenticatable
         'status',
         'token',
         'tckn',
-        'birth_date'
+        'birth_date',
+        'gender'
     ];
 
     /**

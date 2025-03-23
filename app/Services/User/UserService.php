@@ -25,6 +25,7 @@ class UserService extends BaseService
         'token',
         'tckn',
         'birth_date',
+        'gender',
         'phone_verified_at',
         'created_at',
         'updated_at'
@@ -87,9 +88,9 @@ class UserService extends BaseService
      * @return bool
      * @throws Exception
      */
-    public function emailExists($email, $type): bool
+    public function emailExists($email): bool
     {
-        return $this->model->newQuery()->where('email', $email)->where('type', $type)->exists();
+        return $this->model->newQuery()->where('email', $email)->exists();
     }
 
     /**

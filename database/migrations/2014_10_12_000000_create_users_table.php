@@ -22,6 +22,7 @@ return new class extends Migration
             $table->tinyInteger('status')->nullable();
             $table->string('token')->nullable();
             $table->string('tckn')->nullable();
+            $table->tinyInteger('gender')->nullable();
             $table->timestamp('birth_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
