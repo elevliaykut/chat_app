@@ -7,9 +7,8 @@ use ReflectionClass;
 
 class UserTypeHelper
 {
-    public const USER_TYPE_MALE_CLIENT          = 1;
-    public const USER_TYPE_FEMALE_CLIENT        = 2;
-    public const USER_TYPE_ADMIN                = 3;
+    public const USER_TYPE_CLIENT               = 1;
+    public const USER_TYPE_ADMIN                = 2;
 
     public static function types(): ?array
     {

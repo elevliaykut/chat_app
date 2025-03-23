@@ -65,12 +65,12 @@ class UserService extends BaseService
 
     /**
      * @param string $email
-     * @param array $type
+     * @param int $type
      * @return Builder|Model
      */
-    public function getEmailUserWithTypes(string $email, array $type): Model|Builder
+    public function getEmailUserWithTypes(string $email, int $type): Model|Builder
     {
-        return $this->model->newQuery()->where('email', $email)->whereIn('type', $type)->firstOrFail();
+        return $this->model->newQuery()->where('email', $email)->where('type', $type)->firstOrFail();
     }
 
     /**
