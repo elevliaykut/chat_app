@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\API;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -32,8 +33,16 @@ class UserController extends Controller
         return API::success()->response(UserResource::make($user));
     }
 
-    public function update()
+    /**
+     * @param UserUpdateRequest $userUpdateRequest
+     * @return JsonResponse
+     */
+    public function update(UserUpdateRequest $userUpdateRequest): JsonResponse
     {
-        
+        $validatedData = $userUpdateRequest->validated();
+
+        $user = $this->userService->update($validatedData, auth()->user()->id);
+
+        return API::success()->response(UserResource::make($user));
     }
 }

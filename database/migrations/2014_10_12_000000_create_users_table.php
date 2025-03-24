@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->tinyInteger('type')->nullable();
             $table->tinyInteger('status')->nullable();
+            $table->tinyInteger('age')->nullable();
             $table->string('token')->nullable();
             $table->string('tckn')->nullable();
             $table->tinyInteger('gender')->nullable();

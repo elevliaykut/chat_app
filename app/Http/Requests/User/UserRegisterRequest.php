@@ -26,6 +26,7 @@ class UserRegisterRequest extends FormRequest
             'surname'               => 'required',
             'username'              => 'required',
             'email'                 => 'required',
+            'age'                   => 'required',
             'password'              => 'required',
             'phone'                 => 'required',
             'type'                  => 'required',

@@ -17,16 +17,17 @@ class UserService extends BaseService
     protected array $fieldSearchable = [
         'name',
         'surname',
+        'username',
         'email',
         'password',
         'phone',
         'type',
         'status',
+        'age',
         'token',
         'tckn',
         'birth_date',
         'gender',
-        'username',
         'phone_verified_at',
         'created_at',
         'updated_at'

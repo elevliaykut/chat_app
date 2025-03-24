@@ -22,6 +22,7 @@ class UserRegisterResource extends JsonResource
             'phone'         => $this->phone,
             'type'          => $this->type,
             'status'        => $this->status,
+            'age'           => $this->age,
             'tckn'          => $this->tckn,
             'gender'        => $this->gender,
             'birth_date'    => $this->birth_date,
