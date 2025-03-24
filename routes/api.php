@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
@@ -29,4 +30,9 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/me', [UserController::class, 'me']);
     Route::put('/', [UserController::class, 'update']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
+
+    Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {
+        Route::post('/', [PostController::class, 'store']);
+    });
 });
+
