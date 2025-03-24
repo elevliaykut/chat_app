@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\User\UserDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -55,4 +58,12 @@ class User extends Authenticatable
         'birth_date'        => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function detail(): HasOne
+    {
+        return $this->hasOne(UserDetail::class, 'user_id', 'id');
+    }
 }
