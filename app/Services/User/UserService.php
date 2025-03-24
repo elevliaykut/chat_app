@@ -26,6 +26,7 @@ class UserService extends BaseService
         'tckn',
         'birth_date',
         'gender',
+        'username',
         'phone_verified_at',
         'created_at',
         'updated_at'
@@ -74,6 +75,16 @@ class UserService extends BaseService
     }
 
     /**
+     * @param string $userName
+     * @param int $type
+     * @return Builder|Model
+     */
+    public function getUserNameWithTypes(string $userName, int $type)
+    {
+        return $this->model->newQuery()->where('username', $userName)->where('type', $type)->first();
+    }
+
+    /**
      * @param string $phone
      * @return bool
      */
@@ -84,13 +95,22 @@ class UserService extends BaseService
 
     /**
      * @param $email
-     * @param $type
      * @return bool
      * @throws Exception
      */
     public function emailExists($email): bool
     {
         return $this->model->newQuery()->where('email', $email)->exists();
+    }
+
+    /**
+     * @param $username
+     * @return bool
+     * @throws Exception
+     */
+    public function usernameExists($username): bool
+    {
+        return $this->model->newQuery()->where('username', $username)->exists();
     }
 
     /**

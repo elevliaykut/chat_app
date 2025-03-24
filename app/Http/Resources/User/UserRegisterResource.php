@@ -17,13 +17,16 @@ class UserRegisterResource extends JsonResource
         return [
             'name'          => $this->name,
             'surname'       => $this->surname,
+            'username'      => $this->username,
             'email'         => $this->email,
             'phone'         => $this->phone,
             'type'          => $this->type,
             'status'        => $this->status,
             'tckn'          => $this->tckn,
             'gender'        => $this->gender,
-            'birth_date'    => $this->birth_date
+            'birth_date'    => $this->birth_date,
+            'created_at'    => $this->created_at,
+            'updated_at'    => $this->updated_at
         ];
     }
 }

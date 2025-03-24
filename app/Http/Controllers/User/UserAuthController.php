@@ -46,6 +46,11 @@ class UserAuthController extends Controller
             return API::error()->errorMessage($errorMessage)->response();
         }
 
+        if($this->userService->usernameExists($validatedData['username'])) {
+            $errorMessage = __('Bu kullanıcı adı daha önceden kullanılmış!');
+            return API::error()->errorMessage($errorMessage)->response();
+        }
+
         $user = $this->userService->create($validatedData);
 
         return API::success()->response(UserRegisterResource::make($user));
@@ -59,7 +64,11 @@ class UserAuthController extends Controller
     {
         $validatedData = $userLoginRequest->validated();
 
-        $user = $this->userService->getEmailUserWithTypes($validatedData['email'], UserTypeHelper::USER_TYPE_CLIENT);
+        $user = $this->userService->getUserNameWithTypes($validatedData['username'], UserTypeHelper::USER_TYPE_CLIENT);
+
+        if(!$user) {
+            return API::error()->errorMessage('Kullanıcı Bulunamadı')->response();
+        }
 
         if (!Hash::check($validatedData['password'], $user->password)) {
             $errorMessage = __('Mail adresi / şifre eşleşmedi. Eğer şifrenizi unuttuysanız Şifremi Unuttum bölümünden şifrenizi değiştirebilirsiniz.');
@@ -67,6 +76,7 @@ class UserAuthController extends Controller
         }
 
         $token = $user->createToken('API')->plainTextToken;
+        
         return API::success()
             ->additionalData(['token' => $token])    
             ->response(UserResource::make($user));

@@ -28,7 +28,8 @@ class User extends Authenticatable
         'token',
         'tckn',
         'birth_date',
-        'gender'
+        'gender',
+        'username'
     ];
 
     /**
