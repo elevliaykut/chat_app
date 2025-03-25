@@ -14,4 +14,9 @@ class PostPhoto extends Model
         'photo_path',
         'media_id'
     ];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'id', 'post_id');
+    }
 }

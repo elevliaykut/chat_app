@@ -33,8 +33,8 @@ class Post extends Model
     /**
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function creatorUser(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'creator_user_id');
+        return $this->belongsTo(User::class, 'creator_user_id', 'id');
     }
 }

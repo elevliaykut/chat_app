@@ -34,6 +34,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
 
     Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/', [PostController::class, 'store']);
+        Route::get('/', [PostController::class, 'index']);
     });
 });
 

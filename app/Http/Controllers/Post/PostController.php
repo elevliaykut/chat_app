@@ -5,17 +5,23 @@ namespace App\Http\Controllers\Post;
 use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\CreatePostRequest;
+use App\Http\Resources\Post\PostListResource;
+use App\Models\Post\Post;
 use App\Services\Post\PostPhotoService;
 use App\Services\Post\PostService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PostController extends Controller
 {
     protected PostService $postService;
 
     protected PostPhotoService $postPhotoService;
+
+    protected int $defaultPerPage = 20;
 
     /**
      * PostController constructor.
@@ -56,5 +62,23 @@ class PostController extends Controller
         }
 
         return API::success()->response();
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $posts = QueryBuilder::for(Post::class)
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('creator_user_id'),
+                AllowedFilter::exact('status')
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($this->defaultPerPage);
+
+        return API::success()->response(PostListResource::collection($posts));
     }
 }
