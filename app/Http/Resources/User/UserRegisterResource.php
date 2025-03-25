@@ -15,6 +15,7 @@ class UserRegisterResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'                    => $this->id,
             'name'                  => $this->name,
             'surname'               => $this->surname,
             'username'              => $this->username,

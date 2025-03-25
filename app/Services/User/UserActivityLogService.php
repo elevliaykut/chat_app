@@ -40,4 +40,11 @@ class UserActivityLogService extends BaseService
             ->where('activity_type', $activityType)
             ->first();
     }
+
+    public function getByActivityUserAndType(int $activityUserId, int $activityType)
+    {
+        return UserActivityLog::where('activity_user_id', $activityUserId)
+            ->where('activity_type', $activityType)
+            ->get();
+    }
 }
