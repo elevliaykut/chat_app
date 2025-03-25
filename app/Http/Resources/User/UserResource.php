@@ -27,6 +27,9 @@ class UserResource extends JsonResource
             'gender'                => $this->gender,
             'profile_photo_path'    => $this->profile_photo_path,
             'birth_date'            => $this->birth_date,
+            'like_count'            => $this->like_count,
+            'favorite_count'        => $this->favorite_count,
+            'smile_count'           => $this->smile_count,
             'created_at'            => $this->created_at,
             'updaeted_at'           => $this->updaeted_at,
         ];

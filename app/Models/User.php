@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Post\Post;
+use App\Models\User\UserActivityLog;
 use App\Models\User\UserDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,6 +37,9 @@ class User extends Authenticatable
         'profile_photo_path',
         'tckn',
         'birth_date',
+        'like_count',
+        'favorite_count',
+        'smile_count',
         'gender',
     ];
 
@@ -76,5 +80,13 @@ class User extends Authenticatable
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'creator_user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(UserActivityLog::class, 'activity_user_id', 'id');
     }
 }

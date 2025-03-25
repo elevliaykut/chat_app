@@ -28,6 +28,9 @@ class UserService extends BaseService
         'profile_photo_path',
         'tckn',
         'birth_date',
+        'like_count',
+        'favorite_count',
+        'smile_count',
         'gender',
         'phone_verified_at',
         'created_at',
@@ -126,5 +129,41 @@ class UserService extends BaseService
             ->where('email', $email)
             ->where('id', '!=', $user->id)
             ->exists();
+    }
+
+     /**
+     * Belirtilen profilin beğeni sayısını artırır.
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function likeUser(User $user)
+    {
+        $user->increment('like_count');
+        return $user->fresh();
+    }
+
+    /**
+     * Belirtilen favori beğeni sayısını artırır.
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function favoriteUser(User $user)
+    {
+        $user->increment('favorite_count');
+        return $user->fresh();
+    }
+
+    /**
+     * Belirtilen profilin beğeni sayısını artırır.
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function smileUser(User $user)
+    {
+        $user->increment('smile_count');
+        return $user->fresh();
     }
 }

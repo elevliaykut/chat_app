@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Activity\ActivityController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserController;
@@ -27,17 +28,24 @@ Route::prefix('/user')->group(function() {
 });
 
 Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
+
+    /************ User Profile Services ***********/
     Route::get('/me', [UserController::class, 'me']);
     Route::put('/', [UserController::class, 'update']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
     Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
 
+    /************* User Post Services ***********/
     Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/', [PostController::class, 'store']);
         Route::get('/', [PostController::class, 'index']);
         Route::post('/like/{postId}', [PostController::class, 'like']);
         Route::post('/favorite/{postId}', [PostController::class, 'favorite']);
         Route::post('/smile/{postId}', [PostController::class, 'smile']);
+    });
+
+    Route::prefix('/activity')->middleware(['auth:sanctum'])->group(function() {
+        Route::post('/like/{userId}', [ActivityController::class, 'like']);
     });
 });
 
