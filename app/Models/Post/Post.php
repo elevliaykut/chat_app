@@ -22,6 +22,13 @@ class Post extends Model
         'status'
     ];
 
+    protected $casts = [
+        'like_count'        => 'integer',
+        'favorite_count'    => 'integer',
+        'simile_count'      => 'integer',
+        'status'            => 'status'
+    ];
+
     /**
      * @return HasMany
      */
@@ -36,5 +43,13 @@ class Post extends Model
     public function creatorUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(PostActivityLog::class, 'post_id', 'id');
     }
 }

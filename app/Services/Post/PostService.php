@@ -36,4 +36,16 @@ class PostService extends BaseService
     {
         return Post::class;
     }
+
+    /**
+     * Belirtilen postun beğeni sayısını artırır.
+     *
+     * @return Post
+     * @throws ModelNotFoundException
+     */
+    public function likePost(Post $post): Post
+    {
+        $post->increment('like_count');
+        return $post->fresh();
+    }
 }
