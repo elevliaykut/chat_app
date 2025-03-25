@@ -48,4 +48,28 @@ class PostService extends BaseService
         $post->increment('like_count');
         return $post->fresh();
     }
+
+    /**
+     * Belirtilen postun favori sayısını artırır.
+     *
+     * @return Post
+     * @throws ModelNotFoundException
+     */
+    public function favoritePost(Post $post)
+    {
+        $post->increment('favorite_count');
+        return $post->fresh();
+    }
+
+    /**
+     * Belirtilen postun gülümseme sayısını artırır.
+     *
+     * @return Post
+     * @throws ModelNotFoundException
+     */
+    public function smilePost(Post $post)
+    {
+        $post->increment('simile_count');
+        return $post->fresh();
+    }
 }

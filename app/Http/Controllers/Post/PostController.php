@@ -92,15 +92,16 @@ class PostController extends Controller
      */
     public function like(int $postId): JsonResponse
     {   
+        $post = $this->postService->retrieveById($postId);
+        
         if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE)) {
             return API::error()->errorMessage('Beğendiğiniz Bir Gönderiyi Tekrar Beğenemezsiniz!')->response();
         }
-
-        $post = $this->postService->retrieveById($postId);
-        $post = $this->postService->likePost($post);
+        
+        $this->postService->likePost($post);
 
         $activityLogData = [
-            'post_id'           => $post->id,
+            'post_id'           => $postId,
             'activity_user_id'  => auth()->user()->id,
             'activity_type'     => PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE
         ];
@@ -116,14 +117,43 @@ class PostController extends Controller
      */
     public function favorite(int $postId): JsonResponse
     {
+        $post = $this->postService->retrieveById($postId);
+
         if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE)) {
             return API::error()->errorMessage('Favorilere Eklediğiniz Bir Gönderiyi Tekrar Ekleyemezsiniz!')->response();
         }
+        
+        $this->postService->favoritePost($post);
 
         $activityLogData = [
             'post_id'               => $postId,
             'activity_user_id'      => auth()->user()->id,
             'activity_type'         => PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE
+        ];
+
+        $this->postActivityLogService->create($activityLogData);
+
+        return API::success()->response();
+    }
+
+    /**
+     * @param int $postId
+     * @return JsonResponse
+     */
+    public function smile(int $postId): JsonResponse
+    {
+        $post = $this->postService->retrieveById($postId);
+
+        if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE)) {
+            return API::error()->errorMessage('İfade Bıraktığınız Bir Gönderiye Tekrar İfade Bırakamazsınız!')->response();
+        }
+
+        $this->postService->smilePost($post);
+
+        $activityLogData = [
+            'post_id'               => $postId,
+            'activity_user_id'      => auth()->user()->id,
+            'activity_type'         => PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE
         ];
 
         $this->postActivityLogService->create($activityLogData);

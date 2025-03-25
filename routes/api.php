@@ -37,6 +37,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/', [PostController::class, 'index']);
         Route::post('/like/{postId}', [PostController::class, 'like']);
         Route::post('/favorite/{postId}', [PostController::class, 'favorite']);
+        Route::post('/smile/{postId}', [PostController::class, 'smile']);
     });
 });
 
