@@ -30,6 +30,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/me', [UserController::class, 'me']);
     Route::put('/', [UserController::class, 'update']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
+    Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
 
     Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/', [PostController::class, 'store']);

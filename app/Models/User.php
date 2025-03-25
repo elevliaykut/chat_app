@@ -33,6 +33,7 @@ class User extends Authenticatable
         'status',
         'age',
         'token',
+        'profile_photo_path',
         'tckn',
         'birth_date',
         'gender',

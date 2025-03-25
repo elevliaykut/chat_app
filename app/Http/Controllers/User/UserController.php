@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\API;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UploadUserProfilePhotoRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
@@ -62,5 +63,24 @@ class UserController extends Controller
         $this->userService->update($validatedData, auth()->user()->id);
 
         return API::success()->response();
+    }
+
+    /**
+     * @param UploadUserProfilePhotoRequest $uploadUserProfilePhotoRequest
+     * @return JsonResponse
+     */
+    public function uploadProfilePhoto(UploadUserProfilePhotoRequest $uploadUserProfilePhotoRequest): JsonResponse
+    {
+        $file = $uploadUserProfilePhotoRequest->file('photo');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('uploads', $fileName, 'public');
+        $imageUrl = asset('storage/uploads/' . $fileName);
+
+        $data = [
+            'profile_photo_path'        => $imageUrl
+        ];
+
+        $user = $this->userService->update($data, auth()->user()->id);
+        return API::success()->response(UserResource::make($user));
     }
 }

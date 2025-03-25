@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePostRequest extends FormRequest
+class UploadUserProfilePhotoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class CreatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description'           => 'nullable',
-            'photo'                 => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB sınırı
+            'photo'                 => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB sınırı
         ];
     }
 }

@@ -25,6 +25,7 @@ class UserService extends BaseService
         'status',
         'age',
         'token',
+        'profile_photo_path',
         'tckn',
         'birth_date',
         'gender',
