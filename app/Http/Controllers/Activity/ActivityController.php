@@ -111,4 +111,14 @@ class ActivityController extends Controller
 
         return API::success()->response(ActivityUserResource::collection($activityUserLog));
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function favoriteProfiles(): JsonResponse
+    {
+        $activityUserLog = $this->userActivityLogService->getByActivityUserAndType(auth()->user()->id, UserActivityTypeHelper::USER_ACTIVITY_TYPE_MAKE_FAVORITE);
+
+        return API::success()->response(ActivityUserResource::collection($activityUserLog));
+    }
 }

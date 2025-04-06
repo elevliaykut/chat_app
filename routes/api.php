@@ -51,6 +51,8 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/smile/{userId}',[ActivityController::class, 'smile']);
 
         Route::get('/liked-profiles', [ActivityController::class, 'likedProfiles']);
+        Route::get('/favorite-profiles', [ActivityController::class, 'favoriteProfiles']);
+
     });
 });
 
