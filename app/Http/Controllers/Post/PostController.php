@@ -6,6 +6,7 @@ use App\API;
 use App\Helper\Types\PostActivityTypeHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\CreatePostRequest;
+use App\Http\Resources\Activity\ActivityPostResource;
 use App\Http\Resources\Post\PostListResource;
 use App\Models\Post\Post;
 use App\Services\Post\PostActivityLogService;
@@ -13,7 +14,6 @@ use App\Services\Post\PostPhotoService;
 use App\Services\Post\PostService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -159,5 +159,35 @@ class PostController extends Controller
         $this->postActivityLogService->create($activityLogData);
 
         return API::success()->response();
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function likedPosts(): JsonResponse
+    {
+        $postActivityLogs = $this->postActivityLogService->getByActivityUserAndType(auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE);
+
+        return API::success()->response(ActivityPostResource::collection($postActivityLogs));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function favoritePosts(): JsonResponse
+    {
+        $postActivityLogs = $this->postActivityLogService->getByActivityUserAndType(auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE);
+
+        return API::success()->response(ActivityPostResource::collection($postActivityLogs));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function smiledPosts(): JsonResponse
+    {
+        $postActivityLogs = $this->postActivityLogService->getByActivityUserAndType(auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE);
+
+        return API::success()->response(ActivityPostResource::collection($postActivityLogs));
     }
 }

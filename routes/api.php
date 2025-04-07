@@ -42,6 +42,10 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/like/{postId}', [PostController::class, 'like']);
         Route::post('/favorite/{postId}', [PostController::class, 'favorite']);
         Route::post('/smile/{postId}', [PostController::class, 'smile']);
+
+        Route::get('/liked-posts', [PostController::class, 'likedPosts']);
+        Route::get('/favorite-posts', [PostController::class, 'favoritePosts']);
+        Route::get('/smiled-posts', [PostController::class, 'smiledPosts']);
     });
 
     /************** Activty User Services ********/

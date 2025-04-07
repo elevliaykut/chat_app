@@ -26,7 +26,7 @@ class Post extends Model
         'like_count'        => 'integer',
         'favorite_count'    => 'integer',
         'simile_count'      => 'integer',
-        'status'            => 'status'
+        'status'            => 'integer'
     ];
 
     /**
