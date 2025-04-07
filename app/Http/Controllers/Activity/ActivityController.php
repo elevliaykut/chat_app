@@ -121,4 +121,11 @@ class ActivityController extends Controller
 
         return API::success()->response(ActivityUserResource::collection($activityUserLog));
     }
+
+    public function similedProfiles()
+    {
+        $activityUserLog = $this->userActivityLogService->getByActivityUserAndType(auth()->user()->id, UserActivityTypeHelper::USER_ACTIVITY_TYPE_SMILE);
+        
+        return API::success()->response(ActivityUserResource::collection($activityUserLog));
+    }
 }
