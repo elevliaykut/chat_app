@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Models\Post;
+namespace App\Models\User;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PostPhoto extends Model
+class UserPhoto extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'post_id',
+        'user_id',
         'photo_path',
         'media_id'
     ];
@@ -19,8 +20,8 @@ class PostPhoto extends Model
     /**
      * @return BelongsTo
      */
-    public function post(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Post::class, 'id', 'post_id');
+        return $this->belongsTo(User::class, 'id', 'user_id');
     }
 }

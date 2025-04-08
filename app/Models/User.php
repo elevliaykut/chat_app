@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Post\Post;
 use App\Models\User\UserActivityLog;
 use App\Models\User\UserDetail;
+use App\Models\User\UserPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -88,5 +89,13 @@ class User extends Authenticatable
     public function activityLogs(): HasMany
     {
         return $this->hasMany(UserActivityLog::class, 'activity_user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function photos(): HasMany
+    {
+        return $this->hasMany(UserPhoto::class, 'user_id', 'id');
     }
 }

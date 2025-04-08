@@ -4,13 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\API;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StorePhotoRequest;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\User\UserPersonalInformationRequest;
 use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserDetailService;
+use App\Services\User\UserPhotoService;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,15 +25,18 @@ class UserController extends Controller
 
     protected UserDetailService $userDetailService;
 
+    protected UserPhotoService $userPhotoService;
+
 
     /**
      * UserController constructor.
      * @param UserService $userService
      */
-    public function __construct(UserService $userService, UserDetailService $userDetailService)
+    public function __construct(UserService $userService, UserDetailService $userDetailService, UserPhotoService $userPhotoService)
     {
         $this->userService          = $userService;
         $this->userDetailService    = $userDetailService;
+        $this->userPhotoService     = $userPhotoService;
     }
 
     /**
@@ -71,6 +77,25 @@ class UserController extends Controller
 
         return API::success()->response(UserResource::make($user));
 
+    }
+
+    public function storePhoto(StorePhotoRequest $storePhotoRequest)
+    {
+        $validatedData = $storePhotoRequest->validated();
+
+        $file = $storePhotoRequest->file('photo');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('uploads', $fileName, 'public');
+        $imageUrl = asset('storage/uploads/' . $fileName);
+
+        $data = [
+            'user_id'           => auth()->user()->id,
+            'photo_path'        => $imageUrl
+        ];
+
+        $userPhoto = $this->userPhotoService->create($data);
+
+        return API::success()->response(UserPhotoResource::make($userPhoto));
     }
 
     /**
