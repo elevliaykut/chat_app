@@ -16,7 +16,7 @@ class UserDetail extends Model
         'horoscope', // burç
         'city_id', // Şehir
         'district_id', //ilçe
-        'marital status', //medeni durum
+        'marital_status', //medeni durum
         'online_status', //çevrim içi
         'headscarf', // başörtüsü
         'tall', // boy
@@ -48,6 +48,6 @@ class UserDetail extends Model
         'looking_qualities', // eş adayında aradığınız uyum
         'your_hobbies', // hobileriniz
         'your_personality', // kişiliğiniz
-        'physical disability' //fiziksel engel
+        'physical_disability' //fiziksel engel
     ];
 }

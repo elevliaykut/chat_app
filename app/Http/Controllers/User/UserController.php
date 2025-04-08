@@ -6,8 +6,11 @@ use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
+use App\Http\Requests\User\UserPersonalInformationRequest;
+use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
+use App\Services\User\UserDetailService;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,13 +20,17 @@ class UserController extends Controller
 {
     protected UserService $userService;
 
+    protected UserDetailService $userDetailService;
+
+
     /**
      * UserController constructor.
      * @param UserService $userService
      */
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, UserDetailService $userDetailService)
     {
-        $this->userService = $userService;
+        $this->userService          = $userService;
+        $this->userDetailService    = $userDetailService;
     }
 
     /**
@@ -46,6 +53,24 @@ class UserController extends Controller
         $user = $this->userService->update($validatedData, auth()->user()->id);
 
         return API::success()->response(UserResource::make($user));
+    }
+
+    /**
+     * @param UserPersonalInformationUpdateRequest $userPersonalInformationUpdateRequest
+     * @return JsonResponse
+     */
+    public function personalInformation(UserPersonalInformationUpdateRequest $userPersonalInformationUpdateRequest): JsonResponse
+    {
+        $user = $this->userService->retrieveById(auth()->user()->id);
+
+        $validatedData = $userPersonalInformationUpdateRequest->validated();
+
+        $validatedData['user_id'] = auth()->user()->id;
+
+        $this->userDetailService->updateOrCreate($validatedData);
+
+        return API::success()->response(UserResource::make($user));
+
     }
 
     /**

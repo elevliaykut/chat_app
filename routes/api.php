@@ -32,6 +32,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     /************ User Profile Services ***********/
     Route::get('/me', [UserController::class, 'me']);
     Route::put('/', [UserController::class, 'update']);
+    Route::put('/personal-information', [UserController::class, 'personalInformation']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
     Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
 

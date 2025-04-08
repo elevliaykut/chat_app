@@ -64,4 +64,12 @@ class UserDetailService extends BaseService
     {
         return UserDetail::class;
     }
+
+    public function updateOrCreate(array $data)
+    {
+        return UserDetail::updateOrCreate(
+            ['user_id' => $data['user_id']], // Arama kriteri
+            $data                            // Güncellenecek veya eklenecek veri
+        );
+    }
 }

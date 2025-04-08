@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('horoscope')->nullable();
             $table->tinyInteger('city_id')->nullable();
             $table->tinyInteger('district_id')->nullable();
-            $table->tinyInteger('marital status')->nullable();
+            $table->tinyInteger('marital_status')->nullable();
             $table->tinyInteger('online_status')->nullable();
             $table->boolean('headscarf')->nullable();
             $table->string('tall')->nullable();
@@ -51,7 +51,7 @@ return new class extends Migration
             $table->string('looking_qualities')->nullable();
             $table->string('your_hobbies')->nullable();
             $table->string('your_personality')->nullable();
-            $table->string('physical disability')->nullable();
+            $table->string('physical_disability')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
