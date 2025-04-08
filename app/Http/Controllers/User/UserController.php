@@ -10,6 +10,7 @@ use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\User\UserPersonalInformationRequest;
 use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserDetailService;
@@ -134,5 +135,15 @@ class UserController extends Controller
 
         $user = $this->userService->update($data, auth()->user()->id);
         return API::success()->response(UserResource::make($user));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function myPosts(): JsonResponse
+    {
+        $user = auth()->user();
+
+        return API::success()->response(PostListResource::collection($user->posts));
     }
 }

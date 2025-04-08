@@ -37,6 +37,9 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::post('/change-password', [UserController::class, 'changePassword']);
     Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
 
+    /************* My Posts *********************/
+    Route::get('/my-posts', [UserController::class, 'myPosts']);
+
     /************* User Post Services ***********/
     Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/', [PostController::class, 'store']);
@@ -45,6 +48,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/favorite/{postId}', [PostController::class, 'favorite']);
         Route::post('/smile/{postId}', [PostController::class, 'smile']);
 
+        /********** Activities */
         Route::get('/liked-posts', [PostController::class, 'likedPosts']);
         Route::get('/favorite-posts', [PostController::class, 'favoritePosts']);
         Route::get('/smiled-posts', [PostController::class, 'smiledPosts']);
