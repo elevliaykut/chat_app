@@ -79,10 +79,12 @@ class UserController extends Controller
 
     }
 
-    public function storePhoto(StorePhotoRequest $storePhotoRequest)
+    /**
+     * @param StorePhotoRequest $storePhotoRequest
+     * @return JsonResponse
+     */
+    public function storePhoto(StorePhotoRequest $storePhotoRequest): JsonResponse
     {
-        $validatedData = $storePhotoRequest->validated();
-
         $file = $storePhotoRequest->file('photo');
         $fileName = time() . '_' . $file->getClientOriginalName();
         $file->storeAs('uploads', $fileName, 'public');
