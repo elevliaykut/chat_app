@@ -7,11 +7,12 @@ use ReflectionClass;
 
 class UserStatusHelper
 {
-    public const USER_STATUS_INACTIVE = 0;
-    public const USER_STATUS_ACTIVE = 1;
-    public const USER_STATUS_DELETED = 2;
-    public const USER_STATUS_BLOCKED = 3;
-
+    public const USER_STATUS_INACTIVE   = 0;
+    public const USER_STATUS_ACTIVE     = 1;
+    public const USER_STATUS_DELETED    = 2;
+    public const USER_STATUS_BLOCKED    = 3;
+    public const USER_STATUS_FREEZE     = 4;
+    
     public static function types(): ?array
     {
         try {

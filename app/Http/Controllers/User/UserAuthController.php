@@ -39,7 +39,7 @@ class UserAuthController extends Controller
     {
         $validatedData = $userRegisterRequest->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['status'] = UserStatusHelper::USER_STATUS_INACTIVE;
+        $validatedData['status'] = UserStatusHelper::USER_STATUS_ACTIVE;
 
         if($this->userService->emailExists($validatedData['email'])) {
             $errorMessage = __('Bu email daha önceden kullanılmış!');

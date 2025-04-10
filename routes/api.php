@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Activity\ActivityController;
+use App\Http\Controllers\Match\MatchUserController;
 use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\UserAuthController;
@@ -41,6 +43,17 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     /************* My Posts *********************/
     Route::get('/my-posts', [UserController::class, 'myPosts']);
     Route::get('/my-blocked-users', [UserController::class, 'myBlockedUsers']);
+
+    /************ Account Services  *******/
+    Route::prefix('/account')->middleware(['auth:sanctum'])->group(function() {
+        Route::post('/freeze', [AccountController::class, 'freeze']);
+        Route::delete('/delete', [AccountController::class, 'delete']);
+    });
+
+    /****************** Matches User Services *****************/
+    Route::prefix('/match')->middleware(['auth:sanctum'])->group(function() {
+        Route::get('/', [MatchUserController::class, 'matches']);
+    });
 
     /************* User Block Acticity **********/
     Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
