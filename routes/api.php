@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Activity\ActivityController;
+use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserController;
@@ -68,7 +69,10 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/liked-profiles', [ActivityController::class, 'likedProfiles']);
         Route::get('/favorite-profiles', [ActivityController::class, 'favoriteProfiles']);
         Route::get('/similed-profiles', [ActivityController::class, 'similedProfiles']);
-
     });
+
+    /************* User Message Services *********/
+    Route::post('/messages/send', [MessageController::class, 'sendMessage']);
+    Route::get('/messages/{userId}', [MessageController::class, 'getMessages']);
 });
 

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StorePhotoRequest;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
-use App\Http\Requests\User\UserPersonalInformationRequest;
 use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Post\PostListResource;
@@ -18,7 +17,6 @@ use App\Services\User\UserPhotoService;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
@@ -32,6 +30,8 @@ class UserController extends Controller
     /**
      * UserController constructor.
      * @param UserService $userService
+     * @param UserDetailService $userDetailService
+     * @param UserPhotoService $userPhotoService
      */
     public function __construct(UserService $userService, UserDetailService $userDetailService, UserPhotoService $userPhotoService)
     {
