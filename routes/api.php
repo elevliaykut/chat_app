@@ -39,6 +39,11 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
 
     /************* My Posts *********************/
     Route::get('/my-posts', [UserController::class, 'myPosts']);
+    Route::get('/my-blocked-users', [UserController::class, 'myBlockedUsers']);
+
+    /************* User Block Acticity **********/
+    Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
+    Route::post('/unblock/{userId}', [UserController::class, 'unBlockedUser']);
 
     /************* User Post Services ***********/
     Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {

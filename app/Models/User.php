@@ -6,9 +6,11 @@ namespace App\Models;
 
 use App\Models\Post\Post;
 use App\Models\User\UserActivityLog;
+use App\Models\User\UserBlocked;
 use App\Models\User\UserDetail;
 use App\Models\User\UserPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -98,4 +100,26 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserPhoto::class, 'user_id', 'id');
     }
+    
+    public function blockedUsers()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'blocker_id', 'blocked_id');
+    }
+    
+    public function blockers()
+    {
+        return $this->belongsToMany(User::class, 'blocked_users', 'blocked_id', 'blocker_id');
+    }
+    
+    public function hasBlocked(int $userId)
+    {
+        return $this->blockedUsers()->where('blocked_id', $userId)->exists();
+    }
+
+
+    public function isBlockedBy(int $userId)
+    {
+        return $this->blockers()->where('blocker_id', $userId)->exists();
+    }
+    
 }

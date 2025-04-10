@@ -146,4 +146,50 @@ class UserController extends Controller
 
         return API::success()->response(PostListResource::collection($user->posts));
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function myBlockedUsers(): JsonResponse
+    {
+        $user = $this->userService->retrieveById(auth()->user()->id);
+
+        return API::success()->response(UserResource::collection($user->blockedUsers));
+    }
+
+    /**
+     * @param Request $request
+     * @param int $userId
+     * @return JsonResponse
+     */
+    public function blockedUser(Request $request, int $userId): JsonResponse
+    {
+        $user = $this->userService->retrieveById(auth()->user()->id);
+
+        if($user->id == $userId) {
+            return API::error()->errorMessage('Kendinizi Engelleyemezsiniz!')->response();
+        }
+
+        if($user->hasBlocked($userId)) {
+            return API::error()->errorMessage('Zaten Bu Kullanıcıyı Engellediniz!')->response();
+        }
+
+        $user->blockedUsers()->attach($userId);
+
+        return API::success()->message('Kullanıcı Başarılı Bir Şekilde Engellendi!')->response();
+    }
+
+    /**
+     * @param Request $request
+     * @param int $userId
+     * @return JsonResponse
+     */
+    public function unBlockedUser(Request $request, int $userId): JsonResponse
+    {
+        $user = $this->userService->retrieveById(auth()->user()->id);
+
+        $user->blockedUsers()->detach($userId);
+
+        return API::success()->message("Kullanıcının Engeli Kaldırıldı!")->response();
+    }
 }
