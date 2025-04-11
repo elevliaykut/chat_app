@@ -7,8 +7,8 @@ services:
     envVars:
       - key: APP_ENV
         value: production
-      - key: QvSmaoAfM2d9AHz+EIeX7BHX4nKV/gtKWTTD4sKtJbk=
-        value: qEo51zo+Nb6PTL6gGExcfhMnBTf4mPTxJnKyTfnkocs=
+      - key: APP_KEY
+        value: base64:rDZ/Yraccoelbv8XHP9M0DUB/U5hB+Yb/Yr7gSeXMwA=
       - key: APP_DEBUG
         value: false
       - key: APP_URL
