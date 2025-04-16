@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Helper\Types\UserMaritalStatusHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,7 @@ class UserDetailResource extends JsonResource
             'city_id'                           => $this->city_id,
             'district_id'                       => $this->district_id,
             'marital_status'                    => $this->marital_status,
+            'marital_status_value'              => UserMaritalStatusHelper::getTypeName($this->marital_status),
             'online_status'                     => $this->online_status,
             'headscarf'                         => $this->headscarf,
             'tall'                              => $this->tall,
