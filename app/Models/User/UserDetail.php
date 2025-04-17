@@ -2,6 +2,8 @@
 
 namespace App\Models\User;
 
+use App\Models\Definitions\City;
+use App\Models\Definitions\District;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,4 +52,20 @@ class UserDetail extends Model
         'your_personality', // kişiliğiniz
         'physical_disability' //fiziksel engel
     ];
+
+     /**
+     * @return BelongsTo
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 }

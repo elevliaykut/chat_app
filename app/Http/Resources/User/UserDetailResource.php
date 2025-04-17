@@ -3,6 +3,9 @@
 namespace App\Http\Resources\User;
 
 use App\Helper\Types\UserMaritalStatusHelper;
+use App\Http\Resources\Definitions\CityResource;
+use App\Http\Resources\Definitions\DistrictResource;
+use App\Models\Definitions\District;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,8 +23,8 @@ class UserDetailResource extends JsonResource
             'profile_summary'                   => $this->profile_summary,
             'biography'                         => $this->biography,
             'horoscope'                         => $this->horoscope,
-            'city_id'                           => $this->city_id,
-            'district_id'                       => $this->district_id,
+            'city'                              => CityResource::make($this->city),
+            'district'                          => DistrictResource::make($this->district),
             'marital_status'                    => $this->marital_status,
             'marital_status_value'              => UserMaritalStatusHelper::getTypeName($this->marital_status),
             'online_status'                     => $this->online_status,
