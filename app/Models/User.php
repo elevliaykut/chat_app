@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -123,4 +124,39 @@ class User extends Authenticatable
         return $this->blockers()->where('blocker_id', $userId)->exists();
     }
     
+
+    /********** Scope Functions ******/
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $query
+     * @param [type] $type
+     * @return void
+     */
+    public function scopeNearUsers($query, $type)
+    {
+        return $query->whereHas('detail', function($query) use ($type) {
+            return $query->where('district_id', (int)$type);
+        });
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $query
+     * @param [type] $date
+     * @return void
+     */
+    public function scopeCreatedAtDate($query, $date)
+    {
+        try {
+            $parsedDate = Carbon::parse($date)->toDateString();
+        } catch (\Exception $e) {
+            return $query; // tarih bozuksa boş geç
+        }
+
+        return $query->whereDate('created_at', $parsedDate);
+    }
+
 }

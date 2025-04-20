@@ -8,7 +8,6 @@ use App\Http\Resources\Definition\CityResource;
 use App\Http\Resources\Definition\DistrictResource;
 use App\Models\Definitions\City;
 use App\Models\Definitions\District;
-use Illuminate\Http\Request;
 
 class DefinitionController extends Controller
 {

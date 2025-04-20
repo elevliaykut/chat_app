@@ -6,13 +6,19 @@ use App\API;
 use App\Helper\Types\UserActivityTypeHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Activity\ActivityUserResource;
+use App\Http\Resources\User\UserResource;
+use App\Models\User;
 use App\Services\User\UserActivityLogService;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ActivityController extends Controller
 {
+    protected int $defaultPerPage = 20;
+
     protected UserActivityLogService $userActivityLogService;
 
     protected UserService $userService;
@@ -122,10 +128,36 @@ class ActivityController extends Controller
         return API::success()->response(ActivityUserResource::collection($activityUserLog));
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function similedProfiles()
     {
         $activityUserLog = $this->userActivityLogService->getByActivityUserAndType(auth()->user()->id, UserActivityTypeHelper::USER_ACTIVITY_TYPE_SMILE);
         
         return API::success()->response(ActivityUserResource::collection($activityUserLog));
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function filter()
+    {
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('creator_user_id'),
+                AllowedFilter::exact('status'),
+                AllowedFilter::scope('near_users'),
+                AllowedFilter::scope('created_at_date'),
+            ])
+            ->defaultSort('-created_at')
+            ->paginate($this->defaultPerPage);
+
+        return API::success()->response(UserResource::collection($users));
     }
 }
