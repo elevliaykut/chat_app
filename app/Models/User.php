@@ -148,7 +148,7 @@ class User extends Authenticatable
      * @param [type] $date
      * @return void
      */
-    public function scopeCreatedAtDate($query, $date)
+    public function scopeBornTodayDate($query, $date)
     {
         try {
             $parsedDate = Carbon::parse($date)->toDateString();
@@ -156,7 +156,7 @@ class User extends Authenticatable
             return $query; // tarih bozuksa boş geç
         }
 
-        return $query->whereDate('created_at', $parsedDate);
+        return $query->whereDate('birth_date', $parsedDate);
     }
 
 }
