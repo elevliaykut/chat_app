@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Activity\ActivityController;
+use App\Http\Controllers\Definition\DefinitionController;
 use App\Http\Controllers\Match\MatchUserController;
 use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\Post\PostController;
@@ -30,6 +31,9 @@ Route::prefix('/user')->group(function() {
     Route::post('/login', [UserAuthController::class, 'login']);
 });
 
+Route::get('/cities', [DefinitionController::class, 'cities']);
+Route::get('/districts/{cityId}', [DefinitionController::class, 'districts']);
+
 Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
 
     /************ User Profile Services ***********/
@@ -55,7 +59,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/', [MatchUserController::class, 'matches']);
     });
 
-    /************* User Block Acticity **********/
+    /************* User Block Activity **********/
     Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
     Route::post('/unblock/{userId}', [UserController::class, 'unBlockedUser']);
 
@@ -87,5 +91,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     /************* User Message Services *********/
     Route::post('/messages/send', [MessageController::class, 'sendMessage']);
     Route::get('/messages/{userId}', [MessageController::class, 'getMessages']);
+
+    
 });
 
