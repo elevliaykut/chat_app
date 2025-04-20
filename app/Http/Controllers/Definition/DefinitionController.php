@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Definition;
 
 use App\API;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Definition\CityResource;
-use App\Http\Resources\Definition\DistrictResource;
+use App\Http\Resources\Definitions\CityResource;
+use App\Http\Resources\Definitions\DistrictResource;
 use App\Models\Definitions\City;
 use App\Models\Definitions\District;
 
