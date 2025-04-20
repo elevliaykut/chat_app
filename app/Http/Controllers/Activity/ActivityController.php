@@ -155,6 +155,7 @@ class ActivityController extends Controller
                 AllowedFilter::scope('near_users'),
                 AllowedFilter::scope('born_today_date'),
                 AllowedFilter::exact('gender'),
+                AllowedFilter::scope('starts_between')
             ])
             ->defaultSort('-created_at')
             ->paginate($this->defaultPerPage);

@@ -159,4 +159,14 @@ class User extends Authenticatable
         return $query->whereDate('birth_date', $parsedDate);
     }
 
+        /**
+     * @param $query
+     * @param $from
+     * @param $to
+     * @return mixed
+     */
+    public function scopeStartsBetween($query, $from, $to)
+    {
+        return $query->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
+    }
 }
