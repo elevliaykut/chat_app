@@ -144,9 +144,9 @@ class ActivityController extends Controller
     /**
      * Undocumented function
      *
-     * @return void
+     * @return JsonResponse
      */
-    public function filter()
+    public function filter(): JsonResponse
     {
         $users = QueryBuilder::for(User::class)
             ->allowedFilters([
@@ -165,7 +165,12 @@ class ActivityController extends Controller
         return API::success()->response(UserResource::collection($users));
     }
 
-    public function getOnlineUsers()
+    /**
+     * Undocumented function
+     *
+     * @return JsonResponse
+     */
+    public function getOnlineUsers(): JsonResponse
     {
         // Online olan user id'lerini cache'den bul
         $allUserIds = User::pluck('id');
