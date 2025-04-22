@@ -25,6 +25,9 @@ class PostListResource extends JsonResource
             'favorite_count'    => $this->favorite_count,
             'simile_count'      => $this->simile_count,
             'status'            => $this->status,
+            'liked_by_me'       => $this->isLikedBy(auth()->id()),
+            'favorited_by_me'   => $this->isFavoritedBy(auth()->id()),
+            'smiled_by_me'      => $this->isSmiledBy(auth()->id()),
             'created_at'        => $this->created_at->getTimestamp(),
             'updated_at'        => $this->updated_at->getTimestamp()
         ];
