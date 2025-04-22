@@ -158,6 +158,7 @@ class ActivityController extends Controller
                 AllowedFilter::scope('starts_between')
             ])
             ->defaultSort('-created_at')
+            ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
             ->paginate($this->defaultPerPage);
 
         return API::success()->response(UserResource::collection($users));
