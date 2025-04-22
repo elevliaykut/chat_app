@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Cache;
 
 class ActivityController extends Controller
 {
@@ -160,6 +161,24 @@ class ActivityController extends Controller
             ->defaultSort('-created_at')
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
             ->paginate($this->defaultPerPage);
+
+        return API::success()->response(UserResource::collection($users));
+    }
+
+    public function getOnlineUsers()
+    {
+        // Online olan user id'lerini cache'den bul
+        $allUserIds = User::pluck('id');
+        $onlineUserIds = [];
+
+        foreach ($allUserIds as $id) {
+            if (Cache::has('user-is-online-' . $id)) {
+                $onlineUserIds[] = $id;
+            }
+        }
+
+        // Online userları çek ve döndür
+        $users = User::whereIn('id', $onlineUserIds)->get();
 
         return API::success()->response(UserResource::collection($users));
     }
