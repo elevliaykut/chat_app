@@ -86,8 +86,13 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/liked-profiles', [ActivityController::class, 'likedProfiles']);
         Route::get('/favorite-profiles', [ActivityController::class, 'favoriteProfiles']);
         Route::get('/similed-profiles', [ActivityController::class, 'similedProfiles']);
-        Route::get('/filter', [ActivityController::class, 'filter']);
         Route::get('/online-users', [ActivityController::class, 'getOnlineUsers']);
+        
+        // All User list with filter
+        Route::get('/filter', [ActivityController::class, 'filter']);
+        
+        // User Details
+        Route::get('/detail/{id}', [ActivityController::class, 'getUserDetails']);
     });
 
     /************* User Message Services *********/
