@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\API;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -31,5 +32,16 @@ class MemberController extends Controller
         $member = $this->userService->retrieveById($memberId);
 
         return API::success()->response(UserResource::make($member));
+    }
+
+    /**
+     * @param memberId
+     * @return JsonResponse
+     */
+    public function getMemberPosts(int $memberId): JsonResponse
+    {
+        $member = $this->userService->retrieveById($memberId);
+
+        return API::success()->response(PostListResource::collection($member->posts));
     }
 }

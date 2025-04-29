@@ -104,4 +104,5 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
 
 Route::prefix('/member')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/detail/{memberId}', [MemberController::class, 'getMemberDetails']);
+    Route::get('/posts/{memberId}', [MemberController::class, 'getMemberPosts']);
 });
