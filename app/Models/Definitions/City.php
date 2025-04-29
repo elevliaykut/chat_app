@@ -2,6 +2,7 @@
 
 namespace App\Models\Definitions;
 
+use App\Models\User\UserDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,9 +37,9 @@ class City extends Model
         'lat'  => 'decimal:8',
         'lng'  => 'decimal:8',
     ];
+
     public function districts()
     {
         return $this->hasMany(District::class);
     }
-
 }
