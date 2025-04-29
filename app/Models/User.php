@@ -9,6 +9,7 @@ use App\Models\User\UserActivityLog;
 use App\Models\User\UserBlocked;
 use App\Models\User\UserDetail;
 use App\Models\User\UserPhoto;
+use App\Models\User\UserSpouseCandidate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -83,6 +84,14 @@ class User extends Authenticatable
     public function detail(): HasOne
     {
         return $this->hasOne(UserDetail::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function spouseCandidate(): HasOne
+    {
+        return $this->hasOne(UserSpouseCandidate::class, 'user_id', 'id');
     }
 
     /**

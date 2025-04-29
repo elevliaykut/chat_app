@@ -32,6 +32,7 @@ class UserResource extends JsonResource
             'favorite_count'        => $this->favorite_count,
             'smile_count'           => $this->smile_count,
             'detail'                => UserDetailResource::make($this->detail),
+            'spouse_candidate'      => UserSpouseCandidateResource::make($this->spouseCandidate),
             'is_online'             => $this->is_online,
             'created_at'            => $this->created_at,
             'updaeted_at'           => $this->updaeted_at,

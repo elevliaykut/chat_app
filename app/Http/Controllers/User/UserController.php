@@ -8,6 +8,7 @@ use App\Http\Requests\User\StorePhotoRequest;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
+use App\Http\Requests\User\UserSpouseCandidateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserPhotoResource;
@@ -15,12 +16,15 @@ use App\Http\Resources\User\UserResource;
 use App\Services\User\UserDetailService;
 use App\Services\User\UserPhotoService;
 use App\Services\User\UserService;
+use App\Services\User\UserSpouseCandidateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     protected UserService $userService;
+
+    protected UserSpouseCandidateService $userSpouseCandidateService;
 
     protected UserDetailService $userDetailService;
 
@@ -33,11 +37,12 @@ class UserController extends Controller
      * @param UserDetailService $userDetailService
      * @param UserPhotoService $userPhotoService
      */
-    public function __construct(UserService $userService, UserDetailService $userDetailService, UserPhotoService $userPhotoService)
+    public function __construct(UserService $userService, UserDetailService $userDetailService, UserPhotoService $userPhotoService, UserSpouseCandidateService $userSpouseCandidateService)
     {
-        $this->userService          = $userService;
-        $this->userDetailService    = $userDetailService;
-        $this->userPhotoService     = $userPhotoService;
+        $this->userService                  = $userService;
+        $this->userDetailService            = $userDetailService;
+        $this->userPhotoService             = $userPhotoService;
+        $this->userSpouseCandidateService   = $userSpouseCandidateService;
     }
 
     /**
@@ -78,6 +83,23 @@ class UserController extends Controller
 
         return API::success()->response(UserResource::make($user));
 
+    }
+
+    /**
+     * @param UserSpouseCandidateRequest $userSpouseCandidateRequest
+     * @return JsonResponse
+     */
+    public function spouseCandidate(UserSpouseCandidateRequest $userSpouseCandidateRequest): JsonResponse
+    {
+        $user = $this->userService->retrieveById(auth()->user()->id);
+
+        $validatedData = $userSpouseCandidateRequest->validated();
+        
+        $validatedData['user_id'] = auth()->user()->id;
+
+        $this->userSpouseCandidateService->updateOrCreate($validatedData);
+
+        return API::success()->response(UserResource::make($user));
     }
 
     /**

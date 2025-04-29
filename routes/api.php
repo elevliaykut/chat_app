@@ -4,6 +4,7 @@ use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Activity\ActivityController;
 use App\Http\Controllers\Definition\DefinitionController;
 use App\Http\Controllers\Match\MatchUserController;
+use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\UserAuthController;
@@ -40,6 +41,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/me', [UserController::class, 'me']);
     Route::put('/', [UserController::class, 'update']);
     Route::put('/personal-information', [UserController::class, 'personalInformation']);
+    Route::put('/spouse-candidate', [UserController::class, 'spouseCandidate']);
     Route::post('/photo', [UserController::class, 'storePhoto']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
     Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
@@ -98,7 +100,8 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     /************* User Message Services *********/
     Route::post('/messages/send', [MessageController::class, 'sendMessage']);
     Route::get('/messages/{userId}', [MessageController::class, 'getMessages']);
-
-    
 });
 
+Route::prefix('/member')->middleware(['auth:sanctum'])->group(function() {
+    Route::get('/detail/{memberId}', [MemberController::class, 'getMemberDetails']);
+});
