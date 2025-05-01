@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->json('type')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

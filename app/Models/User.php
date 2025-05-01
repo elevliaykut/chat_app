@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Post\Post;
+use App\Models\Report\Report;
 use App\Models\User\UserActivityLog;
 use App\Models\User\UserBlocked;
 use App\Models\User\UserDetail;
@@ -84,6 +85,14 @@ class User extends Authenticatable
     public function detail(): HasOne
     {
         return $this->hasOne(UserDetail::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function report(): HasOne
+    {
+        return $this->hasOne(Report::class, 'user_id', 'id');
     }
 
     /**

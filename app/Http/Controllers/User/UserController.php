@@ -8,6 +8,7 @@ use App\Http\Requests\User\StorePhotoRequest;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
+use App\Http\Requests\User\UserReportRequest;
 use App\Http\Requests\User\UserSpouseCandidateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Post\PostListResource;
@@ -15,6 +16,7 @@ use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserDetailService;
 use App\Services\User\UserPhotoService;
+use App\Services\User\UserReportService;
 use App\Services\User\UserService;
 use App\Services\User\UserSpouseCandidateService;
 use Illuminate\Http\JsonResponse;
@@ -30,6 +32,7 @@ class UserController extends Controller
 
     protected UserPhotoService $userPhotoService;
 
+    protected UserReportService $userReportService;
 
     /**
      * UserController constructor.
@@ -37,12 +40,19 @@ class UserController extends Controller
      * @param UserDetailService $userDetailService
      * @param UserPhotoService $userPhotoService
      */
-    public function __construct(UserService $userService, UserDetailService $userDetailService, UserPhotoService $userPhotoService, UserSpouseCandidateService $userSpouseCandidateService)
+    public function __construct(
+        UserService $userService, 
+        UserDetailService $userDetailService, 
+        UserPhotoService $userPhotoService, 
+        UserSpouseCandidateService $userSpouseCandidateService,
+        UserReportService $userReportService
+    )
     {
         $this->userService                  = $userService;
         $this->userDetailService            = $userDetailService;
         $this->userPhotoService             = $userPhotoService;
         $this->userSpouseCandidateService   = $userSpouseCandidateService;
+        $this->userReportService            = $userReportService;
     }
 
     /**
@@ -213,5 +223,23 @@ class UserController extends Controller
         $user->blockedUsers()->detach($userId);
 
         return API::success()->message("Kullanıcının Engeli Kaldırıldı!")->response();
+    }
+
+    /**
+     * @param UserReportRequest $userReportRequest
+     * @param int $userId
+     * @return JsonResponse
+     */
+    public function reportUser(UserReportRequest $userReportRequest, int $userId): JsonResponse
+    {
+        $validatedData = $userReportRequest->validated();
+        
+        $user = $this->userService->retrieveById($userId);
+        
+        $validatedData['user_id'] = $user->id;
+
+        $this->userReportService->create($validatedData);
+
+        return API::success()->response();
     }
 }

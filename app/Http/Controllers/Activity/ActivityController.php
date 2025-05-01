@@ -187,16 +187,4 @@ class ActivityController extends Controller
 
         return API::success()->response(UserResource::collection($users));
     }
-
-    /**
-     * Undocumented function
-     *
-     * @return JsonResponse
-     */
-    public function getUserDetails(int $userId): JsonResponse
-    {
-        $user = $this->userService->retrieveById($userId);
-
-        return API::success()->response(UserResource::make($user));
-    }
 }

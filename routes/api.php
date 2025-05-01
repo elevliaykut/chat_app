@@ -50,6 +50,15 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/my-posts', [UserController::class, 'myPosts']);
     Route::get('/my-blocked-users', [UserController::class, 'myBlockedUsers']);
 
+    /************* User Message Services *********/
+    Route::post('/messages/send', [MessageController::class, 'sendMessage']);
+    Route::get('/messages/{userId}', [MessageController::class, 'getMessages']);
+
+    /************* User Block & Report Activity **********/
+    Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
+    Route::post('/unblock/{userId}', [UserController::class, 'unBlockedUser']);
+    Route::post('/report/{userId}', [UserController::class, 'reportUser']);
+
     /************ Account Services  *******/
     Route::prefix('/account')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/freeze', [AccountController::class, 'freeze']);
@@ -60,10 +69,6 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::prefix('/match')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/', [MatchUserController::class, 'matches']);
     });
-
-    /************* User Block Activity **********/
-    Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
-    Route::post('/unblock/{userId}', [UserController::class, 'unBlockedUser']);
 
     /************* User Post Services ***********/
     Route::prefix('/post')->middleware(['auth:sanctum'])->group(function() {
@@ -90,16 +95,11 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/similed-profiles', [ActivityController::class, 'similedProfiles']);
         Route::get('/online-users', [ActivityController::class, 'getOnlineUsers']);
         
-        // All User list with filter
+        // ALL USER LIST WITH FILTER
         Route::get('/filter', [ActivityController::class, 'filter']);
-        
-        // User Details
-        Route::get('/detail/{id}', [ActivityController::class, 'getUserDetails']);
     });
 
-    /************* User Message Services *********/
-    Route::post('/messages/send', [MessageController::class, 'sendMessage']);
-    Route::get('/messages/{userId}', [MessageController::class, 'getMessages']);
+
 });
 
 Route::prefix('/member')->middleware(['auth:sanctum'])->group(function() {
