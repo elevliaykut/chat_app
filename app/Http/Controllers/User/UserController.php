@@ -238,6 +238,8 @@ class UserController extends Controller
         
         $validatedData['user_id'] = $user->id;
 
+        $validatedData['creator_user_id'] = auth()->user()->id;
+
         $this->userReportService->create($validatedData);
 
         return API::success()->response();

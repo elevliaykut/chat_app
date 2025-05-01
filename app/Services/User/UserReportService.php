@@ -16,6 +16,7 @@ class UserReportService extends BaseService
      */
     protected array $fieldSearchable = [
         'user_id',
+        'creator_user_id',
         'type',
         'description'
     ];

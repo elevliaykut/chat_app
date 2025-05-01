@@ -92,7 +92,7 @@ class User extends Authenticatable
      */
     public function report(): HasOne
     {
-        return $this->hasOne(Report::class, 'user_id', 'id');
+        return $this->hasOne(Report::class, 'creator_user_id', 'id');
     }
 
     /**
