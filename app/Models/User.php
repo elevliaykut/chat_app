@@ -107,7 +107,43 @@ class User extends Authenticatable
      */
     public function activityLogs(): HasMany
     {
-        return $this->hasMany(UserActivityLog::class, 'activity_user_id', 'id');
+        return $this->hasMany(UserActivityLog::class, 'user_id', 'id');
+    }
+
+    /**
+     * int $userId
+     * return bool
+     */
+    public function isLikedBy(int $userId): bool
+    {
+        return $this->activityLogs()
+            ->where('activity_type',1)
+            ->where('activity_user_id', $userId)
+            ->exists();
+    }
+
+    /**
+     * int $userId
+     * return bool
+     */
+    public function isFavoritedBy(int $userId): bool
+    {
+        return $this->activityLogs()
+            ->where('activity_type',2)
+            ->where('activity_user_id', $userId)
+            ->exists();
+    }
+
+        /**
+     * int $userId
+     * return bool
+     */
+    public function isSmiledBy(int $userId): bool
+    {
+        return $this->activityLogs()
+            ->where('activity_type',3)
+            ->where('activity_user_id', $userId)
+            ->exists();
     }
 
     /**
