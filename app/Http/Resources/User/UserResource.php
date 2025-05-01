@@ -34,6 +34,7 @@ class UserResource extends JsonResource
             'liked_by_me'           => $this->isLikedBy(auth()->id()),
             'favorited_by_me'       => $this->isFavoritedBy(auth()->id()),
             'smiled_by_me'          => $this->isSmiledBy(auth()->id()),
+            'blocked_by_me'         => $this->isBlockedBy(auth()->id()),
             'detail'                => UserDetailResource::make($this->detail),
             'spouse_candidate'      => UserSpouseCandidateResource::make($this->spouseCandidate),
             'is_online'             => $this->is_online,
