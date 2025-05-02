@@ -8,6 +8,7 @@ use App\Helper\Types\UserTypeHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserRegisterRequest;
+use App\Http\Resources\User\UserLoginResource;
 use App\Http\Resources\User\UserRegisterResource;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserService;
@@ -79,6 +80,6 @@ class UserAuthController extends Controller
         
         return API::success()
             ->additionalData(['token' => $token])    
-            ->response(UserResource::make($user));
+            ->response(UserLoginResource::make($user));
     }
 }
