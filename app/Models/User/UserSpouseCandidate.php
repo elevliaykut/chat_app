@@ -13,6 +13,15 @@ class UserSpouseCandidate extends Model
 
     protected $fillable = [
         'user_id',
+        'about',
+        'tall',
+        'weight',
+        'eye_color',
+        'hair_color',
+        'skin_color',
+        'body_type',
+        'want_a_child',
+        'looking_qualities',
         'age_range',
         'marital_status',
         'have_a_child',

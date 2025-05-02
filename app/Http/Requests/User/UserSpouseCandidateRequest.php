@@ -22,6 +22,15 @@ class UserSpouseCandidateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'about'                             => 'nullable',
+            'tall'                              => 'tall',
+            'weight'                            => 'weight',
+            'eye_color'                         => 'eye_color',
+            'hair_color'                        => 'hair_color',
+            'skin_color'                        => 'skin_color',
+            'body_type'                         => 'body_type',
+            'want_a_child'                      => 'want_a_child',
+            'looking_qualities'                 => 'looking_qualities',
             'age_range'                         => 'nullable',
             'marital_status'                    => 'nullable',
             'have_a_child'                      => 'nullable',

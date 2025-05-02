@@ -14,6 +14,16 @@ return new class extends Migration
         Schema::create('user_spouse_candidate', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('about')->nullable();
+            $table->string('tall')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('eye_color')->nullable();
+            $table->string('hair_color')->nullable();
+            $table->string('skin_color')->nullable();
+            $table->string('body_type')->nullable();
+            $table->string('want_a_child')->nullable();
+            $table->string('looking_qualities')->nullable();
+
             $table->string('age_range')->nullable(); // yaş araılığı
             $table->tinyInteger('marital_status')->nullable(); // medeni hali
             $table->string('have_a_child')->nullable(); // çocuğu olsunmu
