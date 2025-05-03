@@ -27,7 +27,6 @@ class UserSpouseCandidateResource extends JsonResource
             'looking_qualities'         => $this->looking_qualities,
             'age_range'                 => $this->age_range,
             'marital_status'            => $this->marital_status,
-            'marital_status_value'      => UserMaritalStatusHelper::getTypeName($this->marital_status),
             'have_a_child'              => $this->have_a_child,
             'use_cigarette'             => $this->use_cigarette,
             'use_alcohol'               => $this->use_alcohol,
