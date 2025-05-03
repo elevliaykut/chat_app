@@ -31,7 +31,8 @@ class UserRegisterRequest extends FormRequest
             'phone'                 => 'required',
             'type'                  => 'required',
             'gender'                => 'required',
-            'birth_date'            => 'required'
+            'birth_date'            => 'required',
+            'marital_status'        => 'required'
         ];
     }
 }

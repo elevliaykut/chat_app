@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('want_a_child')->nullable();
             $table->string('looking_qualities')->nullable();
             $table->string('age_range')->nullable(); // yaş araılığı
-            $table->tinyInteger('marital_status')->nullable(); // medeni hali
+            $table->string('marital_status')->nullable(); // medeni hali
             $table->string('have_a_child')->nullable(); // çocuğu olsunmu
             $table->string('use_cigarette')->nullable(); // sigara kullansınmı
             $table->string('use_alcohol')->nullable(); // Alkol kullansınmı

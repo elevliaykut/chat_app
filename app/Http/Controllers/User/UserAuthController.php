@@ -54,6 +54,13 @@ class UserAuthController extends Controller
 
         $user = $this->userService->create($validatedData);
 
+        $updateData = [
+            'user_id'               => $user->id,
+            'marital_status'        => $validatedData['marital_status']
+        ];
+
+        $user->detail()->create($updateData);
+
         return API::success()->response(UserRegisterResource::make($user));
     }
 

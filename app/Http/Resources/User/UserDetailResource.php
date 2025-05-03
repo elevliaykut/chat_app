@@ -26,7 +26,7 @@ class UserDetailResource extends JsonResource
             'city'                              => CityResource::make($this->city),
             'district'                          => DistrictResource::make($this->district),
             'marital_status'                    => $this->marital_status,
-            'marital_status_value'              => $this->marital_status ?UserMaritalStatusHelper::getTypeName($this->marital_status) : '',
+            'marital_status_value'              => $this->marital_status ? UserMaritalStatusHelper::getTypeName($this->marital_status) : '',
             'online_status'                     => $this->online_status,
             'headscarf'                         => $this->headscarf,
             'tall'                              => $this->tall,

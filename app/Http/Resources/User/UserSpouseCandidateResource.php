@@ -16,6 +16,15 @@ class UserSpouseCandidateResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'about'                     => $this->about,
+            'tall'                      => $this->tall,
+            'weight'                    => $this->weight,
+            'eye_color'                 => $this->eye_color,
+            'hair_color'                => $this->hair_color,
+            'skin_color'                => $this->skin_color,
+            'body_type'                 => $this->body_type,
+            'want_a_child'              => $this->want_a_child,
+            'looking_qualities'         => $this->looking_qualities,
             'age_range'                 => $this->age_range,
             'marital_status'            => $this->marital_status,
             'marital_status_value'      => UserMaritalStatusHelper::getTypeName($this->marital_status),
