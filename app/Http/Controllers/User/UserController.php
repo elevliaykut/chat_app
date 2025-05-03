@@ -101,7 +101,7 @@ class UserController extends Controller
      */
     public function spouseCandidate(UserSpouseCandidateRequest $userSpouseCandidateRequest)
     {
-        $user = $this->userService->retrieveById(auth()->user()->id);
+        $this->userService->retrieveById(auth()->user()->id);
 
         $validatedData = $userSpouseCandidateRequest->validated();
         
@@ -109,7 +109,7 @@ class UserController extends Controller
 
         $this->userSpouseCandidateService->updateOrCreate($validatedData);
 
-        return API::success()->response(UserResource::make($user));
+        return API::success()->response();
     }
 
     /**
