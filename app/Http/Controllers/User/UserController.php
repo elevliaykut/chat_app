@@ -6,6 +6,7 @@ use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StorePhotoRequest;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
+use App\Http\Requests\User\UserCaracteristicFeatureRequest;
 use App\Http\Requests\User\UserChangePasswordRequest;
 use App\Http\Requests\User\UserPersonalInformationUpdateRequest;
 use App\Http\Requests\User\UserReportRequest;
@@ -14,6 +15,7 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
+use App\Services\User\UserCaracteristicService;
 use App\Services\User\UserDetailService;
 use App\Services\User\UserPhotoService;
 use App\Services\User\UserReportService;
@@ -34,6 +36,8 @@ class UserController extends Controller
 
     protected UserReportService $userReportService;
 
+    protected UserCaracteristicService $userCaracteristicService;
+
     /**
      * UserController constructor.
      * @param UserService $userService
@@ -45,7 +49,8 @@ class UserController extends Controller
         UserDetailService $userDetailService, 
         UserPhotoService $userPhotoService, 
         UserSpouseCandidateService $userSpouseCandidateService,
-        UserReportService $userReportService
+        UserReportService $userReportService,
+        UserCaracteristicService $userCaracteristicService
     )
     {
         $this->userService                  = $userService;
@@ -53,6 +58,7 @@ class UserController extends Controller
         $this->userPhotoService             = $userPhotoService;
         $this->userSpouseCandidateService   = $userSpouseCandidateService;
         $this->userReportService            = $userReportService;
+        $this->userCaracteristicService     = $userCaracteristicService;
     }
 
     /**
@@ -108,6 +114,19 @@ class UserController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
 
         $this->userSpouseCandidateService->updateOrCreate($validatedData);
+
+        return API::success()->response(UserResource::make($user));
+    }
+
+    public function caracteristicFeature(UserCaracteristicFeatureRequest $userCaracteristicFeatureRequest)
+    {
+        $user = $this->userService->retrieveById(auth()->user()->id);
+
+        $validatedData = $userCaracteristicFeatureRequest->validated();
+
+        $validatedData['user_id'] = $user->id;
+
+        $this->userCaracteristicService->updateOrCreate($validatedData);
 
         return API::success()->response(UserResource::make($user));
     }

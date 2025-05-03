@@ -8,6 +8,7 @@ use App\Models\Post\Post;
 use App\Models\Report\Report;
 use App\Models\User\UserActivityLog;
 use App\Models\User\UserBlocked;
+use App\Models\User\UserCaracteristicFeature;
 use App\Models\User\UserDetail;
 use App\Models\User\UserPhoto;
 use App\Models\User\UserSpouseCandidate;
@@ -101,6 +102,14 @@ class User extends Authenticatable
     public function spouseCandidate(): HasOne
     {
         return $this->hasOne(UserSpouseCandidate::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function caracteristicFeature(): HasOne
+    {
+        return $this->hasOne(UserCaracteristicFeature::class, 'user_id', 'id');
     }
 
     /**
