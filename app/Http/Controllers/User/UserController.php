@@ -99,7 +99,7 @@ class UserController extends Controller
      * @param UserSpouseCandidateRequest $userSpouseCandidateRequest
      * @return JsonResponse
      */
-    public function spouseCandidate(UserSpouseCandidateRequest $userSpouseCandidateRequest): JsonResponse
+    public function spouseCandidate(UserSpouseCandidateRequest $userSpouseCandidateRequest)
     {
         $user = $this->userService->retrieveById(auth()->user()->id);
 
