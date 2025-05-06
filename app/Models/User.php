@@ -11,6 +11,7 @@ use App\Models\User\UserBlocked;
 use App\Models\User\UserCaracteristicFeature;
 use App\Models\User\UserDetail;
 use App\Models\User\UserPhoto;
+use App\Models\User\UserProfileVisitLog;
 use App\Models\User\UserSpouseCandidate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -126,6 +127,14 @@ class User extends Authenticatable
     public function activityLogs(): HasMany
     {
         return $this->hasMany(UserActivityLog::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function profileVisitLogs(): HasMany
+    {
+        return $this->hasMany(UserProfileVisitLog::class, 'activity_user_id', 'id');
     }
 
     /**

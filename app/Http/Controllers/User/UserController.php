@@ -14,10 +14,12 @@ use App\Http\Requests\User\UserSpouseCandidateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserPhotoResource;
+use App\Http\Resources\User\UserProfileVisitResource;
 use App\Http\Resources\User\UserResource;
 use App\Services\User\UserCaracteristicService;
 use App\Services\User\UserDetailService;
 use App\Services\User\UserPhotoService;
+use App\Services\User\UserProfileVisitLogService;
 use App\Services\User\UserReportService;
 use App\Services\User\UserService;
 use App\Services\User\UserSpouseCandidateService;
@@ -38,6 +40,8 @@ class UserController extends Controller
 
     protected UserCaracteristicService $userCaracteristicService;
 
+    protected UserProfileVisitLogService $userProfileVisitLogService;
+
     /**
      * UserController constructor.
      * @param UserService $userService
@@ -50,7 +54,8 @@ class UserController extends Controller
         UserPhotoService $userPhotoService, 
         UserSpouseCandidateService $userSpouseCandidateService,
         UserReportService $userReportService,
-        UserCaracteristicService $userCaracteristicService
+        UserCaracteristicService $userCaracteristicService,
+        UserProfileVisitLogService $userProfileVisitLogService
     )
     {
         $this->userService                  = $userService;
@@ -59,6 +64,7 @@ class UserController extends Controller
         $this->userSpouseCandidateService   = $userSpouseCandidateService;
         $this->userReportService            = $userReportService;
         $this->userCaracteristicService     = $userCaracteristicService;
+        $this->userProfileVisitLogService   = $userProfileVisitLogService;
     }
 
     /**
@@ -262,5 +268,34 @@ class UserController extends Controller
         $this->userReportService->create($validatedData);
 
         return API::success()->response();
+    }
+
+    /**
+     * @param int $userId
+     * @return JsonResponse
+     */
+    public function createUserProfileVisitLog(int $userId): JsonResponse
+    {
+        $this->userService->retrieveById($userId);
+
+        if($this->userProfileVisitLogService->check($userId)) {
+            return API::error()->errorMessage('Zaten Log Edilmiş!')->response();
+        }
+
+        $data = [
+            'user_id'           => $userId,
+            'activity_user_id'  => auth()->user()->id
+        ];
+
+        $this->userProfileVisitLogService->create($data);
+
+        return API::success()->response();
+    }
+
+    public function getUserProfileVisit()
+    {
+        $user = auth()->user();
+
+        return  API::success()->response(UserProfileVisitResource::collection($user->profileVisitLogs));
     }
 }

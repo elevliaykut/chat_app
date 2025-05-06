@@ -100,7 +100,10 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/filter', [ActivityController::class, 'filter']);
     });
 
-
+    Route::prefix('/profile/visit')->group(function() {
+        Route::post('/{userId}', [UserController::class, 'createUserProfileVisitLog']);
+        Route::get('/', [UserController::class, 'getUserProfileVisit']);
+    });
 });
 
 Route::prefix('/member')->middleware(['auth:sanctum'])->group(function() {
