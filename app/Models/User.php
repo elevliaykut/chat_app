@@ -247,4 +247,43 @@ class User extends Authenticatable
     {
         return $query->whereBetween('created_at', [Carbon::parse($from), Carbon::parse($to)]);
     }
+
+    public function scopeUsername($query, $username)
+    {
+        return $query->where('username', 'ILIKE', "%{$username}%");
+    }
+
+    public function scopeMinAgeRange($query, $value)
+    {
+        $minAge = (int) $value; 
+
+        return $query->where('age', '<', $minAge);
+    }
+
+    public function scopeMaxAgeRange($query, $value)
+    {
+        $minAge = (int) $value; 
+
+        return $query->where('age', '>', $minAge);
+    }
+
+    public function scopeMinTall($query, $value)
+    {
+        $minTall = (float) $value;
+
+        return $query->whereHas('detail', function($query) use ($minTall) {
+            $query->where('tall', '<', $minTall);
+        });
+    }
+
+    public function scopeMaxTall($query, $value)
+    {
+        $maxTall = (float) $value;
+
+        return $query->whereHas('detail', function($query) use ($maxTall) {
+            $query->where('tall', '>', $maxTall);
+        });
+    }
+
+
 }

@@ -156,7 +156,12 @@ class ActivityController extends Controller
                 AllowedFilter::scope('near_users'),
                 AllowedFilter::scope('born_today_date'),
                 AllowedFilter::exact('gender'),
-                AllowedFilter::scope('starts_between')
+                AllowedFilter::scope('starts_between'),
+                AllowedFilter::scope('username'),
+                AllowedFilter::scope('min_age_range'),
+                AllowedFilter::scope('max_age_range'),
+                AllowedFilter::scope('min_tall'),
+                AllowedFilter::scope('max_tall'),
             ])
             ->defaultSort('-created_at')
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
