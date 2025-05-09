@@ -365,4 +365,11 @@ class User extends Authenticatable
             $query->where('physical_disability', 'ILIKE', "%{$value}%");
         });
     }
+
+    public function scopeHeadCraft($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('headscarf', 'ILIKE', "%{$value}%");
+        });
+    }
 }
