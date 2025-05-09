@@ -257,14 +257,14 @@ class User extends Authenticatable
     {
         $minAge = (int) $value; 
 
-        return $query->where('age', '<', $minAge);
+        return $query->where('age', '>=', $minAge);
     }
 
     public function scopeMaxAgeRange($query, $value)
     {
         $minAge = (int) $value; 
 
-        return $query->where('age', '>', $minAge);
+        return $query->where('age', '<=', $minAge);
     }
 
     public function scopeMinTall($query, $value)
@@ -272,7 +272,7 @@ class User extends Authenticatable
         $minTall = (float) $value;
 
         return $query->whereHas('detail', function($query) use ($minTall) {
-            $query->where('tall', '<', $minTall);
+            $query->where('tall', '>=', $minTall);
         });
     }
 
@@ -281,9 +281,88 @@ class User extends Authenticatable
         $maxTall = (float) $value;
 
         return $query->whereHas('detail', function($query) use ($maxTall) {
-            $query->where('tall', '>', $maxTall);
+            $query->where('tall', '<=', $maxTall);
         });
     }
 
+    public function scopeMinWeight($query, $value)
+    {
+        $minWeight = (int) $value;
 
+        return $query->whereHas('detail', function($query) use ($minWeight) {
+            $query->where('weight', '>=', $minWeight);
+        });
+    }
+
+    public function scopeMaxWeight($query, $value)
+    {
+        $maxWeight = (int) $value;
+
+        return $query->whereHas('detail', function($query) use ($maxWeight) {
+            $query->where('weight', '<=', $maxWeight);
+        });
+    }
+
+    public function scopeCityId($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('city_id',  $value);
+        });
+    }
+
+    public function scopeJob($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('job', 'ILIKE', "%{$value}%");
+        });
+    }
+
+    public function scopeMaritalStatus($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('marital_status', $value);
+        });
+    }
+
+    public function scopeHaveAChild($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('have_a_child', 'ILIKE', "%{$value}%");
+        });
+    }
+
+    public function scopeUseCigarette($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('use_cigarette', 'ILIKE', "%{$value}%");
+        });
+    }
+
+    public function scopeUseAlcohol($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('use_alcohol', 'ILIKE', "%{$value}%");
+        });
+    }
+
+    public function scopeEducation($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('education_status', 'ILIKE', "%{$value}%");
+        });
+    }
+
+    public function scopeSalary($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('salary', 'ILIKE', "%{$value}%");
+        });
+    }
+
+    public function scopePhysical($query, $value)
+    {
+        return $query->whereHas('detail', function($query) use ($value) {
+            $query->where('physical_disability', 'ILIKE', "%{$value}%");
+        });
+    }
 }

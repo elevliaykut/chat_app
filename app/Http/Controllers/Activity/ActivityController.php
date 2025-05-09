@@ -162,6 +162,17 @@ class ActivityController extends Controller
                 AllowedFilter::scope('max_age_range'),
                 AllowedFilter::scope('min_tall'),
                 AllowedFilter::scope('max_tall'),
+                AllowedFilter::scope('min_weight'),
+                AllowedFilter::scope('max_weight'),
+                AllowedFilter::scope('city_id'),
+                AllowedFilter::scope('job'),
+                AllowedFilter::scope('marital_status'),
+                AllowedFilter::scope('have_a_child'),
+                AllowedFilter::scope('use_cigarette'),
+                AllowedFilter::scope('use_alcohol'),
+                AllowedFilter::scope('education'),
+                AllowedFilter::scope('salary'),
+                AllowedFilter::scope('physical'),
             ])
             ->defaultSort('-created_at')
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
