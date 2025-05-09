@@ -174,6 +174,8 @@ class ActivityController extends Controller
                 AllowedFilter::scope('salary'),
                 AllowedFilter::scope('physical'),
                 AllowedFilter::scope('physical'),
+                AllowedFilter::scope('has_photos'),
+                AllowedFilter::scope('head_craft'),
             ])
             ->defaultSort('-created_at')
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık

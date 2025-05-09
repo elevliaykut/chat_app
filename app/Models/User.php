@@ -372,4 +372,17 @@ class User extends Authenticatable
             $query->where('headscarf', 'ILIKE', "%{$value}%");
         });
     }
+
+    public function scopeHasPhotos($query, $value)
+    {
+        if ((int) $value === 1) {
+            return $query->whereHas('photos');
+        }
+    
+        if ((int) $value === 0) {
+            return $query->whereDoesntHave('photos');
+        }
+    
+        return $query;
+    }    
 }
