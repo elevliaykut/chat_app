@@ -62,6 +62,7 @@ class MatchUserController extends Controller
                 AllowedFilter::scope('head_craft'),
             ])  
             ->where('id', '!=', auth()->user()->id)
+            ->where('liked_by_me', false)
             ->where('gender', $user->gender === 1 ? 0 : 1)
             ->inRandomOrder()
             ->first();

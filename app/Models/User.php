@@ -47,6 +47,7 @@ class User extends Authenticatable
         'profile_photo_path',
         'tckn',
         'birth_date',
+        'liked_by_me',
         'like_count',
         'favorite_count',
         'smile_count',

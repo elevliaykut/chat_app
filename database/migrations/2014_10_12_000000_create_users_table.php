@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('tckn')->nullable();
             $table->tinyInteger('gender')->nullable();
             $table->timestamp('birth_date')->nullable();
+            $table->boolean('liked_by_me')->default(false);
             $table->unsignedInteger('like_count')->default(0);
             $table->unsignedInteger('favorite_count')->default(0);
             $table->unsignedInteger('smile_count')->default(0);

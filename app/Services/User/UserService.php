@@ -28,6 +28,7 @@ class UserService extends BaseService
         'profile_photo_path',
         'tckn',
         'birth_date',
+        'liked_by_me',
         'like_count',
         'favorite_count',
         'smile_count',
@@ -140,6 +141,11 @@ class UserService extends BaseService
     public function likeUser(User $user)
     {
         $user->increment('like_count');
+        
+        $user->update([
+            'liked_by_me'   => true
+        ]);
+        
         return $user->fresh();
     }
 
