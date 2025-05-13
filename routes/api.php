@@ -69,6 +69,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     /****************** Matches User Services *****************/
     Route::prefix('/match')->middleware(['auth:sanctum'])->group(function() {
         Route::get('/', [MatchUserController::class, 'matches']);
+        Route::get('/previus', [MatchUserController::class, 'matchPrevius']);
     });
 
     /************* User Post Services ***********/

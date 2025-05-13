@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Match\MatchHistory;
 use App\Models\Post\Post;
 use App\Models\Report\Report;
 use App\Models\User\UserActivityLog;
@@ -136,6 +137,14 @@ class User extends Authenticatable
     public function profileVisitLogs(): HasMany
     {
         return $this->hasMany(UserProfileVisitLog::class, 'activity_user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function matchHistories(): HasMany
+    {
+        return $this->hasMany(MatchHistory::class, 'activity_user_id', 'id');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Match;
 use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
+use App\Models\Match\MatchHistory;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -66,7 +67,27 @@ class MatchUserController extends Controller
             ->where('gender', $user->gender === 1 ? 0 : 1)
             ->inRandomOrder()
             ->first();
+        
+        MatchHistory::create([
+            'shown_user_id'         => $matches->id,
+            'activity_user_id'      => auth()->user()->id
+        ]);
 
         return API::success()->response(UserResource::make($matches));
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function matchPrevius(): JsonResponse
+    {
+        $match = auth()->user()->matchHistories()
+            ->latest()
+            ->take(2)
+            ->get();
+
+        $log = $match->count() >= 2 ? $match->get(1) : null;
+
+        return API::success()->response(UserResource::make($log->user));
     }
 }
