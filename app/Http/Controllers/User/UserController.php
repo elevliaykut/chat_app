@@ -16,6 +16,7 @@ use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserProfileVisitResource;
 use App\Http\Resources\User\UserResource;
+use App\Models\User;
 use App\Services\User\UserCaracteristicService;
 use App\Services\User\UserDetailService;
 use App\Services\User\UserPhotoService;
@@ -73,7 +74,12 @@ class UserController extends Controller
     public function me(): JsonResponse
     {
         $user = $this->userService->retrieveById(auth()->user()->id);
-        return API::success()->response(UserResource::make($user));
+
+        $allMemberCount = count(User::all());
+
+        return API::success()
+            ->additionalData(["count" => $allMemberCount])
+            ->response(UserResource::make($user));
     }
 
     /**
