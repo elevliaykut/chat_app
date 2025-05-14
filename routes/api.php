@@ -6,6 +6,7 @@ use App\Http\Controllers\Definition\DefinitionController;
 use App\Http\Controllers\Match\MatchUserController;
 use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Message\MessageController;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserController;
@@ -110,4 +111,8 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
 Route::prefix('/member')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/detail/{memberId}', [MemberController::class, 'getMemberDetails']);
     Route::get('/posts/{memberId}', [MemberController::class, 'getMemberPosts']);
+});
+
+Route::prefix('/notification')->middleware(['auth:sanctum'])->group(function() {
+    Route::get('/', [NotificationController::class, 'index']);
 });

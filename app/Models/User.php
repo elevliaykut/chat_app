@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Match\MatchHistory;
+use App\Models\Notification\Notification;
 use App\Models\Post\Post;
 use App\Models\Report\Report;
 use App\Models\User\UserActivityLog;

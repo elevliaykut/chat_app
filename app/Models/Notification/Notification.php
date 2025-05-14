@@ -2,6 +2,7 @@
 
 namespace App\Models\Notification;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,4 +21,9 @@ class Notification extends Model
         'message',
         'is_that_read'
     ];
+
+    public function notifyUser()
+    {
+        return $this->belongsTo(User::class, 'notified_user_id', 'id');
+    }
 }
