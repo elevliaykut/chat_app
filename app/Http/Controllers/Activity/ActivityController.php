@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Activity\ActivityUserResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Services\Notification\NotificationService;
 use App\Services\User\UserActivityLogService;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -24,14 +25,17 @@ class ActivityController extends Controller
 
     protected UserService $userService;
 
+    protected NotificationService $notificationService;
+
     /**
      * ActivityController constructor.
      * @param UserActivityLogService $userActivityLogService
      */
-    public function __construct(UserActivityLogService $userActivityLogService, UserService $userService)
+    public function __construct(UserActivityLogService $userActivityLogService, UserService $userService, NotificationService $notificationService)
     {
         $this->userActivityLogService = $userActivityLogService;
         $this->userService = $userService;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -55,6 +59,14 @@ class ActivityController extends Controller
         ];
 
         $this->userActivityLogService->create($logData);
+
+        $notifData = [
+            'user_id'               => $userId,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Sizi Beğendi'
+        ];
+
+        $this->notificationService->create($notifData);
 
         return API::success()->response();
     }
@@ -81,6 +93,14 @@ class ActivityController extends Controller
 
         $this->userActivityLogService->create($logData);
 
+        $notifData = [
+            'user_id'               => $userId,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Sizi Favorilere Ekledi'
+        ];
+
+        $this->notificationService->create($notifData);
+
         return API::success()->response();
     }
 
@@ -105,6 +125,15 @@ class ActivityController extends Controller
         ];
 
         $this->userActivityLogService->create($logData);
+
+
+        $notifData = [
+            'user_id'               => $userId,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Size Gülümsedi'
+        ];
+
+        $this->notificationService->create($notifData);
 
         return API::success()->response();
     }

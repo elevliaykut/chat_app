@@ -17,6 +17,7 @@ use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserProfileVisitResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Services\Notification\NotificationService;
 use App\Services\User\UserCaracteristicService;
 use App\Services\User\UserDetailService;
 use App\Services\User\UserPhotoService;
@@ -26,6 +27,7 @@ use App\Services\User\UserService;
 use App\Services\User\UserSpouseCandidateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Events\NotificationSent;
 
 class UserController extends Controller
 {
@@ -43,6 +45,8 @@ class UserController extends Controller
 
     protected UserProfileVisitLogService $userProfileVisitLogService;
 
+    protected NotificationService $notificationService;
+
     /**
      * UserController constructor.
      * @param UserService $userService
@@ -56,7 +60,8 @@ class UserController extends Controller
         UserSpouseCandidateService $userSpouseCandidateService,
         UserReportService $userReportService,
         UserCaracteristicService $userCaracteristicService,
-        UserProfileVisitLogService $userProfileVisitLogService
+        UserProfileVisitLogService $userProfileVisitLogService,
+        NotificationService $notificationService
     )
     {
         $this->userService                  = $userService;
@@ -66,6 +71,7 @@ class UserController extends Controller
         $this->userReportService            = $userReportService;
         $this->userCaracteristicService     = $userCaracteristicService;
         $this->userProfileVisitLogService   = $userProfileVisitLogService;
+        $this->notificationService          = $notificationService;
     }
 
     /**
@@ -74,8 +80,6 @@ class UserController extends Controller
     public function me(): JsonResponse
     {
         $user = $this->userService->retrieveById(auth()->user()->id);
-
-        $allMemberCount = count(User::all());
 
         return API::success()->response(UserResource::make($user));
     }
@@ -292,6 +296,14 @@ class UserController extends Controller
         ];
 
         $this->userProfileVisitLogService->create($data);
+
+        $notifData = [
+            'user_id'               => $userId,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Profilinizi Ziyaret Etti'
+        ];
+
+        $this->notificationService->create($notifData);
 
         return API::success()->response();
     }

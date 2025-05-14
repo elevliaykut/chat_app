@@ -9,6 +9,7 @@ use App\Http\Requests\Post\CreatePostRequest;
 use App\Http\Resources\Activity\ActivityPostResource;
 use App\Http\Resources\Post\PostListResource;
 use App\Models\Post\Post;
+use App\Services\Notification\NotificationService;
 use App\Services\Post\PostActivityLogService;
 use App\Services\Post\PostPhotoService;
 use App\Services\Post\PostService;
@@ -23,6 +24,7 @@ class PostController extends Controller
 
     protected PostPhotoService $postPhotoService;
     protected PostActivityLogService $postActivityLogService;
+    protected NotificationService $notificationService;
 
     protected int $defaultPerPage = 20;
 
@@ -31,11 +33,17 @@ class PostController extends Controller
      * @param PostService $postService
      * @param PostPhotoService $postPhotoService
      */
-    public function __construct(PostService $postService, PostPhotoService $postPhotoService, PostActivityLogService $postActivityLogService)
+    public function __construct(
+        PostService $postService, 
+        PostPhotoService $postPhotoService, 
+        PostActivityLogService $postActivityLogService,
+        NotificationService $notificationService
+    )
     {
         $this->postService = $postService;
         $this->postPhotoService = $postPhotoService;
         $this->postActivityLogService = $postActivityLogService;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -108,6 +116,14 @@ class PostController extends Controller
 
         $this->postActivityLogService->create($activityLogData);
 
+        $notifData = [
+            'user_id'               => $post->creator_user_id,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Paylaşımızı Beğendi'
+        ];
+
+        $this->notificationService->create($notifData);
+
         return API::success()->response();
     }
 
@@ -133,6 +149,14 @@ class PostController extends Controller
 
         $this->postActivityLogService->create($activityLogData);
 
+        $notifData = [
+            'user_id'               => $post->creator_user_id,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Paylaşımızı Favorilere Ekledi'
+        ];
+
+        $this->notificationService->create($notifData);
+
         return API::success()->response();
     }
 
@@ -157,6 +181,14 @@ class PostController extends Controller
         ];
 
         $this->postActivityLogService->create($activityLogData);
+
+        $notifData = [
+            'user_id'               => $post->creator_user_id,
+            'notified_user_id'      => auth()->user()->id,
+            'message'               => 'Paylaşımıza Gülümsedi'
+        ];
+
+        $this->notificationService->create($notifData);
 
         return API::success()->response();
     }
