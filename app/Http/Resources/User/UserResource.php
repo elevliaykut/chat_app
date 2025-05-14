@@ -39,6 +39,7 @@ class UserResource extends JsonResource
             'spouse_candidate'      => UserSpouseCandidateResource::make($this->spouseCandidate),
             'caracterisric_feature' => UserCaracteristicFeatureResource::make($this->caracteristicFeature),
             'is_online'             => $this->is_online,
+            'online_member_count'   => $this->all_member_count,
             'created_at'            => $this->created_at,
             'updaeted_at'           => $this->updaeted_at,
         ];

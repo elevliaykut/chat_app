@@ -77,9 +77,7 @@ class UserController extends Controller
 
         $allMemberCount = count(User::all());
 
-        return API::success()
-            ->additionalData(["count" => $allMemberCount])
-            ->response(UserResource::make($user));
+        return API::success()->response(UserResource::make($user));
     }
 
     /**

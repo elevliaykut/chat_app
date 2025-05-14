@@ -206,10 +206,14 @@ class User extends Authenticatable
         return $this->blockedUsers()->where('blocked_id', $userId)->exists();
     }
 
-
     public function isBlockedBy(int $userId)
     {
         return $this->blockers()->where('blocker_id', $userId)->exists();
+    }
+    
+    public function getAllMemberCountAttribute()
+    {
+        return self::count();
     }
     
 
