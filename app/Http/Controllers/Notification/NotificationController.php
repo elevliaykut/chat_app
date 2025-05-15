@@ -55,4 +55,17 @@ class NotificationController extends Controller
     
         return API::success()->response();
     }
+
+    /**
+     * @param int $notifId
+     * @return JsonResponse
+     */
+    public function delete(int $notifId)
+    {
+        $notification = $this->notificationService->retrieveById($notifId);
+
+        $notification->delete();
+
+        return API::success()->response();
+    }
 }
