@@ -43,4 +43,16 @@ class NotificationController extends Controller
 
         return API::success()->response(NotificationResource::collection($notifications));
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function readAll(): JsonResponse
+    {
+        Notification::where('is_that_read', false)
+            ->where('user_id', auth()->user()->id)
+            ->update(['is_that_read' => true]);
+    
+        return API::success()->response();
+    }
 }

@@ -115,4 +115,5 @@ Route::prefix('/member')->middleware(['auth:sanctum'])->group(function() {
 
 Route::prefix('/notification')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/', [NotificationController::class, 'index']);
+    Route::post('/read-all', [NotificationController::class, 'readAll']);
 });
