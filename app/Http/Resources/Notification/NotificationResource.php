@@ -16,6 +16,7 @@ class NotificationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'            => $this->id,
             'user'          => UserResource::make($this->notifyUser),
             'message'       => $this->message,
         ];  
