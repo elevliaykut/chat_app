@@ -15,13 +15,14 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'], // Veya ihtiyacınıza göre: ['*']
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'], // Tüm HTTP metodlara izin ver
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['*'], // GÜVENLİ DEĞİLSE SADECE FRONTEND URL'İNİ YAZ
 
-    'allowed_origins_patterns' => [],
+    // Örneğin sadece frontend'den gelen istekleri kabul etmek için:
+     'allowed_origins' => ['*'],
 
     'allowed_headers' => ['*'],
 
@@ -30,5 +31,4 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => false,
-
 ];
