@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'status'                => $this->status,
             'age'                   => $this->age,
             'tckn'                  => $this->tckn,
+            'message_count'         => count($this->messages),
             'gender'                => $this->gender,
             'profile_photo_path'    => $this->profile_photo_path,
             'birth_date'            => $this->birth_date,

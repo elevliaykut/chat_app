@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Match\MatchHistory;
+use App\Models\Message\Message;
 use App\Models\Notification\Notification;
 use App\Models\Post\Post;
 use App\Models\Report\Report;
@@ -190,6 +191,11 @@ class User extends Authenticatable
     public function photos(): HasMany
     {
         return $this->hasMany(UserPhoto::class, 'user_id', 'id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id', 'id')->where('is_that_read',false);
     }
     
     public function blockedUsers()

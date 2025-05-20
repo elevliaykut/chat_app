@@ -55,6 +55,8 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     /************* User Message Services *********/
     Route::post('/messages/send', [MessageController::class, 'sendMessage']);
     Route::get('/messages/{userId}', [MessageController::class, 'getMessages']);
+    Route::get('/incoming-message-logs', [MessageController::class, 'getIncomingMessageLogs']);
+    Route::get('/outgoing-message-logs', [MessageController::class, 'getOutgoingMessageLogs']);
 
     /************* User Block & Report Activity **********/
     Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
