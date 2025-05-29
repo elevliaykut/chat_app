@@ -106,6 +106,10 @@ class UserController extends Controller
         $user = $this->userService->retrieveById(auth()->user()->id);
 
         $validatedData = $userPersonalInformationUpdateRequest->validated();
+        
+        $user->update([
+            'personal_info_complete'        => true
+        ]);
 
         $validatedData['user_id'] = auth()->user()->id;
 

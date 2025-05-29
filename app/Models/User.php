@@ -55,6 +55,7 @@ class User extends Authenticatable
         'favorite_count',
         'smile_count',
         'gender',
+        'personal_info_complete'
     ];
 
     /**
