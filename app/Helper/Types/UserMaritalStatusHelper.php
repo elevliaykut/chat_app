@@ -7,9 +7,10 @@ use ReflectionClass;
 
 class UserMaritalStatusHelper
 {
-    public const USER_MARITAL_STATUS_TYPE_MARRIED              = 1; // EVLİ
-    public const USER_MARITAL_STATUS_TYPE_DIVORCED             = 2; // BOŞANMIŞ
-    public const USER_MARITAL_STATUS_TYPE_SINGLE               = 3; // BEKAR
+    public const USER_MARITAL_STATUS_TYPE_NEVER_MARRIED       = 1; // HİÇ EVLENMEMİŞ
+    public const USER_MARITAL_STATUS_TYPE_SINGLE              = 2; // BEKAR
+    public const USER_MARITAL_STATUS_TYPE_DIVORCED            = 3; // BOŞANMIŞ
+    public const USER_MARITAL_STATUS_TYPE_DECASE_WIFE         = 4; // EŞİ VEFAT ETMİŞ
 
     public static function types(): ?array
     {

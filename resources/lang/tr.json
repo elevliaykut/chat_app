@@ -1,8 +1,8 @@
 {
-    "USER_MARITAL_STATUS_TYPE_MARRIED": "Evli",
-    "USER_MARITAL_STATUS_TYPE_DIVORCED": "Boşanmış",
+    "USER_MARITAL_STATUS_TYPE_NEVER_MARRIED": "Hiç Evlenmemiş",
     "USER_MARITAL_STATUS_TYPE_SINGLE": "Bekar",
-    "USER_REPORT_TYPE_MARRIED": "Evli",
+    "USER_MARITAL_STATUS_TYPE_DIVORCED": "Boşanmış",
+    "USER_MARITAL_STATUS_TYPE_DECASE_WIFE": "Eşi Vefat Etmiş",
     "USER_REPORT_TYPE_NOT_CORRECT_INFORMATION": "Profilinde verdiği bilgiler doğru değil.",
     "USER_REPORT_TYPE_CONTAIN_ADVERTISING": "Reklam İçerikli mesajlar gönderiyor.",
     "USER_REPORT_TYPE_WANT_TO_MONEY": "Para yardımı, kontör gibi maddi taleplerde bulunuyor.",
