@@ -56,7 +56,6 @@ class UserAuthController extends Controller
 
         $updateData = [
             'user_id'               => $user->id,
-            'marital_status'        => $validatedData['marital_status']
         ];
 
         $user->detail()->create($updateData);
