@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Post;
 
 use App\Http\Resources\User\UserResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,8 +29,8 @@ class PostListResource extends JsonResource
             'liked_by_me'       => $this->isLikedBy(auth()->id()),
             'favorited_by_me'   => $this->isFavoritedBy(auth()->id()),
             'smiled_by_me'      => $this->isSmiledBy(auth()->id()),
-            'created_at'        => $this->created_at->getTimestamp(),
-            'updated_at'        => $this->updated_at->getTimestamp()
+            'created_at'        => Carbon::parse($this->created_at)->format('d.m.y H:i'),
+            'updated_at'        => Carbon::parse($this->updated_at)->format('d.m.y H:i'),
         ];
     }
 }

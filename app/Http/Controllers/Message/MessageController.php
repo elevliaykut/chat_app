@@ -110,4 +110,42 @@ class MessageController extends Controller
 
         return API::success()->response(MessageResource::collection($messages));
     }
+
+    /**
+     * @param int $senderId
+     * @return JsonResponse
+     */
+    public function deleteIncomingMessage(int $senderId)
+    {
+        $currentUserId = auth()->user()->id;
+        
+        Message::where('receiver_id', $currentUserId)
+            ->where('sender_id', $senderId)
+            ->delete();
+
+        MessageLog::where('receiver_id', $currentUserId)
+            ->where('sender_id', $senderId)
+            ->delete();
+
+        return API::success()->response();
+    }
+
+    /**
+     * @param int $receiverId
+     * @return JsonResponse
+     */
+    public function deleteOutGoingMessage(int $receiverId)
+    {
+        $currentUserId = auth()->user()->id;
+
+        Message::where('sender_id', $currentUserId)
+            ->where('receiver_id', $receiverId)
+            ->delete();
+
+        MessageLog::where('sender_id', $currentUserId)
+            ->where('receiver_id', $receiverId)
+            ->delete();
+
+        return API::success()->response();
+    }
 }
