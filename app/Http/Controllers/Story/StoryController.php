@@ -65,7 +65,7 @@ class StoryController extends Controller
                 return [
                     'user_id' => $user->id,
                     'username' => $user->username,
-                    'profile_photo_url' => $user->profile_photo_url,
+                    'profile_photo_url' => $user->profile_photo_path,
                     'stories' => $user->stories->map(function ($story) {
                         return [
                             'id' => $story->id,
