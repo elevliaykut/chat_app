@@ -49,9 +49,12 @@ class StoryController extends Controller
     /**
      * @return JsonResponse
      */
-    public function index()
-    {
-        $users = User::whereHas('stories', function ($query) {
+    public function index(Request $request)
+    {        
+        $currentUserId = auth()->user()->id;
+
+        $users = User::where('id', '!=', $currentUserId)
+            ->whereHas('stories', function ($query) {
             $query->where('expires_at', '>', now());
         })
         ->with(['stories' => function ($query) {
