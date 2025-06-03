@@ -8,6 +8,7 @@ use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Story\StoryController;
 use App\Http\Controllers\User\UserAuthController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
@@ -109,6 +110,11 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::prefix('/profile/visit')->group(function() {
         Route::post('/{userId}', [UserController::class, 'createUserProfileVisitLog']);
         Route::get('/', [UserController::class, 'getUserProfileVisit']);
+    });
+
+    Route::prefix('/story')->group(function() {
+        Route::post('/', [StoryController::class, 'store']);
+        Route::get('/', [StoryController::class, 'index']);
     });
 });
 

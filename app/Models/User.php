@@ -9,6 +9,7 @@ use App\Models\Message\Message;
 use App\Models\Notification\Notification;
 use App\Models\Post\Post;
 use App\Models\Report\Report;
+use App\Models\User\Story;
 use App\Models\User\UserActivityLog;
 use App\Models\User\UserBlocked;
 use App\Models\User\UserCaracteristicFeature;
@@ -80,6 +81,11 @@ class User extends Authenticatable
         'birth_date'        => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function stories()
+    {
+        return $this->hasMany(Story::class);
+    }
 
     public function getIsOnlineAttribute()
     {
