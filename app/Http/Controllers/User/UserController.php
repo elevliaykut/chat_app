@@ -155,10 +155,18 @@ class UserController extends Controller
      */
     public function storePhoto(StorePhotoRequest $storePhotoRequest): JsonResponse
     {
+        $userId = auth()->user()->id;
+        
+        $existingPhotoCount = $this->userPhotoService->countByUserId($userId);
+    
+        if ($existingPhotoCount >= 7) {
+            return API::error()->errorMessage("En fazla 7 fotoğraf yükleyebilirsiniz.")->response();
+        }
+
         $file = $storePhotoRequest->file('photo');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $file->storeAs('uploads', $fileName, 'public');
-        $imageUrl = asset('storage/uploads/' . $fileName);
+        $file->storeAs('photo', $fileName, 'public');
+        $imageUrl = asset('storage/photo/' . $fileName);
 
         $data = [
             'user_id'           => auth()->user()->id,
@@ -168,6 +176,16 @@ class UserController extends Controller
         $userPhoto = $this->userPhotoService->create($data);
 
         return API::success()->response(UserPhotoResource::make($userPhoto));
+    }
+
+    /**
+     * @param int $userId
+     * @return JsonResponse
+     */
+    public function listPhoto(int $userId): JsonResponse
+    {
+        $user = $this->userService->retrieveById($userId);
+        return API::success()->response(UserPhotoResource::collection($user->photos));
     }
 
     /**

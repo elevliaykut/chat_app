@@ -31,4 +31,9 @@ class UserPhotoService extends BaseService
     {
         return UserPhoto::class;
     }
+
+    public function countByUserId(int $userId): int
+    {
+        return UserPhoto::where('user_id', $userId)->count();
+    }
 }

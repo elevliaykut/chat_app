@@ -46,6 +46,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::put('/spouse-candidate', [UserController::class, 'spouseCandidate']);
     Route::put('/caracteristic-feature', [UserController::class, 'caracteristicFeature']);
     Route::post('/photo', [UserController::class, 'storePhoto']);
+    Route::get('/photo/{userId}', [UserController::class, 'listPhoto']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
     Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
 
