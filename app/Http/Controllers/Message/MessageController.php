@@ -148,4 +148,20 @@ class MessageController extends Controller
 
         return API::success()->response();
     }
+
+    /**
+     * @param int $receiverId
+     * @return JsonResponse
+     */
+    public function readIncomingMessage(int $senderId): JsonResponse
+    {
+        $currentUserId = auth()->user()->id;
+
+        Message::where('receiver_id', $currentUserId)
+            ->where('sender_id', $senderId)
+            ->where('is_that_read', false)
+            ->update(['is_that_read'    => true]);
+
+        return API::success()->response();
+    }
 }

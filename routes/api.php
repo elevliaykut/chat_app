@@ -61,6 +61,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/outgoing-message-logs', [MessageController::class, 'getOutgoingMessageLogs']);
     Route::delete('/incoiming-message/{senderId}', [MessageController::class, 'deleteIncomingMessage']);
     Route::delete('/outgoing-message/{receiverId}', [MessageController::class, 'deleteOutGoingMessage']);
+    Route::post('/read-incoming-message/{senderId}', [MessageController::class, 'readIncomingMessage']);
 
     /************* User Block & Report Activity **********/
     Route::post('/blocked/{userId}', [UserController::class, 'blockedUser']);
