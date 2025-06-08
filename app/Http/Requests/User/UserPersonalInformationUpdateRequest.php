@@ -22,6 +22,10 @@ class UserPersonalInformationUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name'                          => 'nullable',
+            'surname'                       => 'nullable',
+            'age'                           => 'nullable',
+            'phone'                         => 'nullable',
             'profile_summary'               => 'nullable',
             'biography'                     => 'nullable',
             'horoscope'                     => 'nullable',

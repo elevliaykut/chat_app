@@ -108,7 +108,11 @@ class UserController extends Controller
         $validatedData = $userPersonalInformationUpdateRequest->validated();
         
         $user->update([
-            'personal_info_complete'        => true
+            'personal_info_complete'        => true,
+            'name'                          => $validatedData['name'],
+            'surname'                       => $validatedData['surname'],
+            'age'                           => $validatedData['age'],
+            'phone'                         => $validatedData['phone']   
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
