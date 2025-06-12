@@ -107,13 +107,16 @@ class UserController extends Controller
 
         $validatedData = $userPersonalInformationUpdateRequest->validated();
         
-        $user->update([
-            'personal_info_complete'        => true,
-            'name'                          => $validatedData['name'],
-            'surname'                       => $validatedData['surname'],
-            'age'                           => $validatedData['age'],
-            'phone'                         => $validatedData['phone']   
-        ]);
+        $updateData = ['personal_info_complete' => true];
+
+        // Sadece gelen ve tanımlı olan alanları ekle
+        foreach (['name', 'surname', 'age', 'phone'] as $field) {
+            if (isset($validatedData[$field])) {
+                $updateData[$field] = $validatedData[$field];
+            }
+        }
+
+        $user->update($updateData);
 
         $validatedData['user_id'] = auth()->user()->id;
 
