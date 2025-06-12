@@ -177,6 +177,9 @@ class ActivityController extends Controller
      */
     public function filter(): JsonResponse
     {
+        $currentUser = auth()->user();
+        $oppositeGender = $currentUser->gender === 1 ? 0 : 1;
+
         $users = QueryBuilder::for(User::class)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -208,6 +211,7 @@ class ActivityController extends Controller
             ])
             ->defaultSort('-created_at')
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
+            ->where('gender', $oppositeGender)
             ->paginate($this->defaultPerPage);
 
         return API::success()->response(UserResource::collection($users));

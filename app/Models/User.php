@@ -147,7 +147,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserProfileVisitLog::class, 'activity_user_id', 'id');
     }
-
+    
     /**
      * @return HasMany
      */
