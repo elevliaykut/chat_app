@@ -70,7 +70,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
 
     /************ Account Services  *******/
     Route::prefix('/account')->middleware(['auth:sanctum'])->group(function() {
-        Route::post('/freeze', [AccountController::class, 'freeze']);
+        Route::post('/freeze/{status}', [AccountController::class, 'freeze']);
         Route::delete('/delete', [AccountController::class, 'delete']);
         Route::post('/change-email', [AccountController::class, 'changeEmail']);
     });

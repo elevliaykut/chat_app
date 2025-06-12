@@ -36,11 +36,12 @@ class AccountController extends Controller
      *
      * @return void
      */
-    public function freeze()
+    public function freeze(int $status)
     {
         $data = [
-            'status'        => UserStatusHelper::USER_STATUS_FREEZE
+            'status'        => $status
         ];
+
         $user = $this->userService->update($data, auth()->user()->id);
 
         return API::success()->response(UserResource::make($user));
