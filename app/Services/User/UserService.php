@@ -150,6 +150,27 @@ class UserService extends BaseService
     }
 
     /**
+     * Belirtilen profilin beğeni sayısını azaltır.
+     *
+     * @param User $user
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function unlikeUser(User $user)
+    {
+        // like_count sıfırın altına düşmesin
+        if ($user->like_count > 0) {
+            $user->decrement('like_count');
+        }
+
+        $user->update([
+            'liked_by_me' => false
+        ]);
+
+        return $user->fresh();
+    }
+
+    /**
      * Belirtilen favori beğeni sayısını artırır.
      *
      * @return User
@@ -162,6 +183,18 @@ class UserService extends BaseService
     }
 
     /**
+     * Belirtilen favori beğeni sayısını azaltır.
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function unFavoriteUser(User $user)
+    {
+        $user->decrement('favorite_count');
+        return $user->fresh();
+    }
+
+    /**
      * Belirtilen profilin beğeni sayısını artırır.
      *
      * @return User
@@ -170,6 +203,18 @@ class UserService extends BaseService
     public function smileUser(User $user)
     {
         $user->increment('smile_count');
+        return $user->fresh();
+    }
+
+    /**
+     * Belirtilen profilin beğeni sayısını azaltır.
+     *
+     * @return User
+     * @throws ModelNotFoundException
+     */
+    public function unSmileUser(User $user)
+    {
+        $user->decrement('smile_count');
         return $user->fresh();
     }
 }
