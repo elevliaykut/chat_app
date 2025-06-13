@@ -224,8 +224,12 @@ class ActivityController extends Controller
      */
     public function getOnlineUsers(): JsonResponse
     {
-        // Online olan user id'lerini cache'den bul
-        $allUserIds = User::pluck('id');
+        $currentUser = auth()->user();
+        $oppositeGender = $currentUser->gender === 1 ? 0 : 1;
+
+        // Sadece karşı cinsiyetteki kullanıcıların ID'lerini al
+        $allUserIds = User::where('gender', $oppositeGender)->pluck('id');
+
         $onlineUserIds = [];
 
         foreach ($allUserIds as $id) {
@@ -234,9 +238,9 @@ class ActivityController extends Controller
             }
         }
 
-        // Online userları çek ve döndür
+        // Online ve karşı cinsiyetli kullanıcıları getir
         $users = User::whereIn('id', $onlineUserIds)->get();
 
-        return API::success()->response(UserResource::collection($users));
+        return API::success()->response(UserResource::collection($users));;
     }
 }
