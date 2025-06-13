@@ -190,8 +190,10 @@ class UserService extends BaseService
      */
     public function unFavoriteUser(User $user)
     {
-        $user->decrement('favorite_count');
-        return $user->fresh();
+        if($user->favorite_count > 0) {
+            $user->decrement('favorite_count');
+            return $user->fresh();
+        }
     }
 
     /**
@@ -214,7 +216,9 @@ class UserService extends BaseService
      */
     public function unSmileUser(User $user)
     {
-        $user->decrement('smile_count');
-        return $user->fresh();
+        if($user->smile_count > 0) {
+            $user->decrement('smile_count');
+            return $user->fresh();
+        }
     }
 }

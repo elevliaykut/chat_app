@@ -9,6 +9,7 @@ use App\Http\Requests\Post\CreatePostRequest;
 use App\Http\Resources\Activity\ActivityPostResource;
 use App\Http\Resources\Post\PostListResource;
 use App\Models\Post\Post;
+use App\Models\Post\PostActivityLog;
 use App\Services\Notification\NotificationService;
 use App\Services\Post\PostActivityLogService;
 use App\Services\Post\PostPhotoService;
@@ -98,99 +99,143 @@ class PostController extends Controller
      * @param int $postId
      * @return JsonResponse
      */
-    public function like(int $postId): JsonResponse
+    public function like(Request $request, int $postId)
     {   
         $post = $this->postService->retrieveById($postId);
-        
-        if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE)) {
-            return API::error()->errorMessage('Beğendiğiniz Bir Gönderiyi Tekrar Beğenemezsiniz!')->response();
+
+        if($request->input('status') == 1) {
+            
+            if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE)) {
+                return API::error()->errorMessage('Beğendiğiniz Bir Gönderiyi Tekrar Beğenemezsiniz!')->response();
+            }
+            
+            $this->postService->likePost($post);
+    
+            $activityLogData = [
+                'post_id'           => $postId,
+                'activity_user_id'  => auth()->user()->id,
+                'activity_type'     => PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE
+            ];
+    
+            $this->postActivityLogService->create($activityLogData);
+    
+            $notifData = [
+                'user_id'               => $post->creator_user_id,
+                'notified_user_id'      => auth()->user()->id,
+                'message'               => 'Paylaşımızı Beğendi'
+            ];
+    
+            $this->notificationService->create($notifData);
+    
+            return API::success()->response();
         }
-        
-        $this->postService->likePost($post);
 
-        $activityLogData = [
-            'post_id'           => $postId,
-            'activity_user_id'  => auth()->user()->id,
-            'activity_type'     => PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE
-        ];
+        if($request->input('status') == 0) {
 
-        $this->postActivityLogService->create($activityLogData);
+            $this->postService->unLikePost($post);
 
-        $notifData = [
-            'user_id'               => $post->creator_user_id,
-            'notified_user_id'      => auth()->user()->id,
-            'message'               => 'Paylaşımızı Beğendi'
-        ];
+            PostActivityLog::where('post_id', $postId)
+                ->where('activity_user_id', auth()->user()->id)
+                ->where('activity_type', PostActivityTypeHelper::POST_ACTIVITY_TYPE_LIKE)
+                ->delete();
 
-        $this->notificationService->create($notifData);
-
-        return API::success()->response();
+            return API::success()->response();
+        }
     }
 
     /**
      * @param int $postId
      * @return JsonResponse
      */
-    public function favorite(int $postId): JsonResponse
+    public function favorite(Request $request, int $postId)
     {
         $post = $this->postService->retrieveById($postId);
 
-        if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE)) {
-            return API::error()->errorMessage('Favorilere Eklediğiniz Bir Gönderiyi Tekrar Ekleyemezsiniz!')->response();
+        if($request->input('status') == 1) {
+            if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE)) {
+                return API::error()->errorMessage('Favorilere Eklediğiniz Bir Gönderiyi Tekrar Ekleyemezsiniz!')->response();
+            }
+            
+            $this->postService->favoritePost($post);
+    
+            $activityLogData = [
+                'post_id'               => $postId,
+                'activity_user_id'      => auth()->user()->id,
+                'activity_type'         => PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE
+            ];
+    
+            $this->postActivityLogService->create($activityLogData);
+    
+            $notifData = [
+                'user_id'               => $post->creator_user_id,
+                'notified_user_id'      => auth()->user()->id,
+                'message'               => 'Paylaşımızı Favorilere Ekledi'
+            ];
+    
+            $this->notificationService->create($notifData);
+    
+            return API::success()->response();
         }
-        
-        $this->postService->favoritePost($post);
 
-        $activityLogData = [
-            'post_id'               => $postId,
-            'activity_user_id'      => auth()->user()->id,
-            'activity_type'         => PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE
-        ];
+        if($request->input('status') == 0) {
+            
+            $this->postService->unFavoritePost($post);
+            
+            PostActivityLog::where('post_id', $postId)
+                ->where('activity_user_id', auth()->user()->id)
+                ->where('activity_type', PostActivityTypeHelper::POST_ACTIVITY_TYPE_MAKE_FAVORITE)
+                ->delete();
 
-        $this->postActivityLogService->create($activityLogData);
-
-        $notifData = [
-            'user_id'               => $post->creator_user_id,
-            'notified_user_id'      => auth()->user()->id,
-            'message'               => 'Paylaşımızı Favorilere Ekledi'
-        ];
-
-        $this->notificationService->create($notifData);
-
-        return API::success()->response();
+            return API::success()->response();
+        }
     }
 
     /**
      * @param int $postId
      * @return JsonResponse
      */
-    public function smile(int $postId): JsonResponse
+    public function smile(Request $request, int $postId)
     {
         $post = $this->postService->retrieveById($postId);
 
-        if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE)) {
-            return API::error()->errorMessage('İfade Bıraktığınız Bir Gönderiye Tekrar İfade Bırakamazsınız!')->response();
+        if($request->input('status') == 1) {
+            
+            if($this->postActivityLogService->check($postId, auth()->user()->id, PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE)) {
+                return API::error()->errorMessage('İfade Bıraktığınız Bir Gönderiye Tekrar İfade Bırakamazsınız!')->response();
+            }
+    
+            $this->postService->smilePost($post);
+    
+            $activityLogData = [
+                'post_id'               => $postId,
+                'activity_user_id'      => auth()->user()->id,
+                'activity_type'         => PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE
+            ];
+    
+            $this->postActivityLogService->create($activityLogData);
+    
+            $notifData = [
+                'user_id'               => $post->creator_user_id,
+                'notified_user_id'      => auth()->user()->id,
+                'message'               => 'Paylaşımıza Gülümsedi'
+            ];
+    
+            $this->notificationService->create($notifData);
+    
+            return API::success()->response();
         }
 
-        $this->postService->smilePost($post);
+        if($request->input('status') == 0) {
+            
+            $this->postService->unSmilePost($post);
+            
+            PostActivityLog::where('post_id', $postId)
+                ->where('activity_user_id', auth()->user()->id)
+                ->where('activity_type', PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE)
+                ->delete();
 
-        $activityLogData = [
-            'post_id'               => $postId,
-            'activity_user_id'      => auth()->user()->id,
-            'activity_type'         => PostActivityTypeHelper::POST_ACTIVITY_TYPE_SMILE
-        ];
-
-        $this->postActivityLogService->create($activityLogData);
-
-        $notifData = [
-            'user_id'               => $post->creator_user_id,
-            'notified_user_id'      => auth()->user()->id,
-            'message'               => 'Paylaşımıza Gülümsedi'
-        ];
-
-        $this->notificationService->create($notifData);
-
-        return API::success()->response();
+            return API::success()->response();
+        }
     }
 
     /**

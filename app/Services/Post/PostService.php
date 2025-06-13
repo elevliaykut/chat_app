@@ -49,6 +49,20 @@ class PostService extends BaseService
         return $post->fresh();
     }
 
+     /**
+     * Belirtilen postun beğeni sayısını artırır.
+     *
+     * @return Post
+     * @throws ModelNotFoundException
+     */
+    public function unLikePost(Post $post): Post
+    {
+        if ($post->like_count > 0) {
+            $post->decrement('like_count');
+        }
+        return $post->fresh();
+    }
+
     /**
      * Belirtilen postun favori sayısını artırır.
      *
@@ -62,6 +76,20 @@ class PostService extends BaseService
     }
 
     /**
+     * Belirtilen postun favori sayısını azaltır.
+     *
+     * @return Post
+     * @throws ModelNotFoundException
+     */
+        public function unFavoritePost(Post $post)
+        {
+            if($post->favorite_count > 0) {
+                $post->decrement('favorite_count');
+                return $post->fresh();
+            }
+        }
+
+    /**
      * Belirtilen postun gülümseme sayısını artırır.
      *
      * @return Post
@@ -71,5 +99,19 @@ class PostService extends BaseService
     {
         $post->increment('simile_count');
         return $post->fresh();
+    }
+
+    /**
+     * Belirtilen postun gülümseme sayısını azaltır.
+     *
+     * @return Post
+     * @throws ModelNotFoundException
+     */
+    public function unSmilePost(Post $post)
+    {
+        if($post->simile_count > 0) {
+            $post->decrement('simile_count');
+            return $post->fresh();
+        }
     }
 }

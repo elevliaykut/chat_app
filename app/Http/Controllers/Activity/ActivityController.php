@@ -180,6 +180,8 @@ class ActivityController extends Controller
                 ->where('activity_user_id', auth()->user()->id)
                 ->where('activity_type', UserActivityTypeHelper::USER_ACTIVITY_TYPE_SMILE)
                 ->delete();
+
+            return API::success()->response();
         }
     }
 
