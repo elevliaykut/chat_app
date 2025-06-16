@@ -16,7 +16,7 @@ use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserProfileVisitResource;
 use App\Http\Resources\User\UserResource;
-use App\Models\User;
+use App\Models\Post\Post;
 use App\Services\Notification\NotificationService;
 use App\Services\User\UserCaracteristicService;
 use App\Services\User\UserDetailService;
@@ -27,7 +27,8 @@ use App\Services\User\UserService;
 use App\Services\User\UserSpouseCandidateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Events\NotificationSent;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -238,7 +239,17 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
-        return API::success()->response(PostListResource::collection($user->posts));
+        $posts = QueryBuilder::for(Post::class)
+            ->where('creator_user_id', $user->id)
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('creator_user_id'),
+                AllowedFilter::exact('status')
+            ])
+            ->defaultSort('-created_at')
+            ->get();
+
+        return API::success()->response(PostListResource::collection($posts));
     }
 
     /**
