@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('price')->nullable();
             $table->string('description')->nullable();
             $table->boolean('completed')->default(false);
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }

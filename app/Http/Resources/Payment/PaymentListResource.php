@@ -26,6 +26,7 @@ class PaymentListResource extends JsonResource
             'payment_date'          => $this->payment_date,
             'price'                 => $this->price,
             'description'           => $this->description,
+            'code'                  => $this->code,
             'completed'             => $this->completed,
             'created_at'            => $this->created_at
         ];

@@ -12,6 +12,8 @@ use Illuminate\Http\JsonResponse;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
+use function PHPUnit\Framework\matches;
+
 class MatchUserController extends Controller
 {
     protected UserService $userService;
@@ -61,19 +63,25 @@ class MatchUserController extends Controller
                 AllowedFilter::scope('physical'),
                 AllowedFilter::scope('has_photos'),
                 AllowedFilter::scope('head_craft'),
-            ])  
+            ])
             ->where('id', '!=', auth()->user()->id)
             ->where('liked_by_me', false)
             ->where('gender', $user->gender === 1 ? 0 : 1)
             ->inRandomOrder()
             ->first();
         
-        MatchHistory::create([
-            'shown_user_id'         => $matches->id,
-            'activity_user_id'      => auth()->user()->id
-        ]);
+        if($matches) {
+            MatchHistory::create([
+                'shown_user_id'         => $matches->id,
+                'activity_user_id'      => auth()->user()->id
+            ]);
+        }
 
-        return API::success()->response(UserResource::make($matches));
+        if($matches) {
+            return API::success()->response(UserResource::make($matches));
+        } else {
+            return API::success()->response();
+        }
     }
 
     /**

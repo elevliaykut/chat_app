@@ -30,6 +30,7 @@ class CreatePaymentRequest extends FormRequest
             'payment_date'          => 'required',
             'price'                 => 'required',
             'description'           => 'nullable',
+            'code'                  => 'required'
         ];
     }
 }

@@ -21,7 +21,8 @@ class Payment extends Model
         'payment_date',
         'price',
         'description',
-        'completed'
+        'completed',
+        'code'
     ];
 
     /**
