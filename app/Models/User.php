@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\Match\MatchHistory;
 use App\Models\Message\Message;
 use App\Models\Notification\Notification;
+use App\Models\Payment\Payment;
 use App\Models\Post\Post;
 use App\Models\Report\Report;
 use App\Models\User\Story;
@@ -85,6 +86,11 @@ class User extends Authenticatable
     public function stories()
     {
         return $this->hasMany(Story::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     public function getIsOnlineAttribute()

@@ -7,6 +7,7 @@ use App\Http\Controllers\Match\MatchUserController;
 use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\Notification\NotificationController;
+use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Story\StoryController;
 use App\Http\Controllers\User\UserAuthController;
@@ -118,6 +119,12 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::prefix('/story')->group(function() {
         Route::post('/', [StoryController::class, 'store']);
         Route::get('/', [StoryController::class, 'index']);
+    });
+
+    Route::prefix('/payment')->group(function() {
+        Route::post('/', [PaymentController::class, 'store']);
+        Route::post('/complete/{id}', [PaymentController::class, 'paymentComplete']);
+        Route::get('/', [PaymentController::class, 'index']);
     });
 });
 
