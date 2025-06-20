@@ -18,7 +18,8 @@ class UserReportService extends BaseService
         'user_id',
         'creator_user_id',
         'type',
-        'description'
+        'description',
+        'post_id'
     ];
 
     /**

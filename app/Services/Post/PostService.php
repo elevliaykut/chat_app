@@ -21,7 +21,7 @@ class PostService extends BaseService
         'like_count',
         'favorite_count',
         'simile_count',
-        'status'
+        'status',
     ];
 
     /**

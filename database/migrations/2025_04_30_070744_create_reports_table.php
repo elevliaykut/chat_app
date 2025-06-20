@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_user_id')->nullable();
             $table->json('type')->nullable();
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('post_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

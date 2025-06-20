@@ -23,7 +23,8 @@ class UserReportRequest extends FormRequest
     {
         return [
             'type'              => 'nullable',
-            'description'       => 'nullable'
+            'description'       => 'nullable',
+            'post_id'           => 'nullable'
         ];
     }
 }

@@ -6,9 +6,12 @@ use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserResource;
+use App\Models\Post\Post;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MemberController extends Controller
 {
@@ -40,8 +43,15 @@ class MemberController extends Controller
      */
     public function getMemberPosts(int $memberId): JsonResponse
     {
-        $member = $this->userService->retrieveById($memberId);
-
-        return API::success()->response(PostListResource::collection($member->posts));
+        $posts = QueryBuilder::for(Post::class)
+            ->where('creator_user_id', $memberId)
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('creator_user_id'),
+                AllowedFilter::exact('status')
+            ])
+            ->defaultSort('-created_at')
+            ->get();
+        return API::success()->response(PostListResource::collection($posts));
     }
 }
