@@ -81,9 +81,14 @@ class PostController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
+        $currentGender = auth()->user()->gender;
+        
         $posts = QueryBuilder::for(Post::class)
+            ->whereHas('creatorUser', function ($query) use ($currentGender) {
+                $query->where('gender', '!=', $currentGender);
+            })
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('creator_user_id'),
