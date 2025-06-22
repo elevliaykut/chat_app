@@ -262,13 +262,8 @@ class User extends Authenticatable
      */
     public function scopeBornTodayDate($query, $date)
     {
-        try {
-            $parsedDate = Carbon::parse($date)->toDateString();
-        } catch (\Exception $e) {
-            return $query; // tarih bozuksa boş geç
-        }
-
-        return $query->whereDate('birth_date', $parsedDate);
+        return $query->whereMonth('birth_date', Carbon::now()->month)
+                 ->whereDay('birth_date', Carbon::now()->day);
     }
 
         /**

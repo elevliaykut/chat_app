@@ -355,10 +355,21 @@ class UserController extends Controller
         return API::success()->response();
     }
 
-    public function getUserProfileVisit()
+    /**
+     * @return JsonResponse
+     */
+    public function getUserProfileVisit(): JsonResponse
     {
         $user = auth()->user();
 
-        return  API::success()->response(UserProfileVisitResource::collection($user->profileVisitLogs));
+        $visits = $user->profileVisitLogs()
+            ->whereHas('user', function ($query) {
+                $query->whereDoesntHave('blockers', function ($subQuery) {
+                    $subQuery->where('blocker_id', auth()->id());
+                });
+            })
+            ->get();
+
+        return API::success()->response(UserProfileVisitResource::collection($visits));
     }
 }

@@ -256,6 +256,9 @@ class ActivityController extends Controller
                 AllowedFilter::scope('has_photos'),
                 AllowedFilter::scope('head_craft'),
             ])
+            ->whereDoesntHave('blockers', function ($query) {
+                $query->where('blocker_id', auth()->id());
+            })
             ->defaultSort('-created_at')
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
             ->where('gender', $oppositeGender)
@@ -274,7 +277,7 @@ class ActivityController extends Controller
         $currentUser = auth()->user();
         $oppositeGender = $currentUser->gender === 1 ? 0 : 1;
 
-        // Sadece karşı cinsiyetteki kullanıcıların ID'lerini al
+        // Karşı cinsiyetteki kullanıcıların ID'lerini al
         $allUserIds = User::where('gender', $oppositeGender)->pluck('id');
 
         $onlineUserIds = [];
@@ -285,9 +288,14 @@ class ActivityController extends Controller
             }
         }
 
-        // Online ve karşı cinsiyetli kullanıcıları getir
-        $users = User::whereIn('id', $onlineUserIds)->get();
+        // Online ve karşı cinsiyetteki, aynı zamanda seni engellemeyen kullanıcıları getir
+        $users = User::whereIn('id', $onlineUserIds)
+            ->get()
+            ->filter(function ($user) use ($currentUser) {
+                return !$user->isBlockedBy($currentUser->id);
+            })
+            ->values(); // ->values() ile filtrelenen koleksiyonu sıfırdan indexle
 
-        return API::success()->response(UserResource::collection($users));;
+        return API::success()->response(UserResource::collection($users));
     }
 }

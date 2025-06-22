@@ -43,8 +43,14 @@ class UserActivityLogService extends BaseService
 
     public function getByActivityUserAndType(int $activityUserId, int $activityType)
     {
-        return UserActivityLog::where('activity_user_id', $activityUserId)
+        return UserActivityLog::with('user')
+            ->where('activity_user_id', $activityUserId)
             ->where('activity_type', $activityType)
+            ->whereHas('user', function ($query) use ($activityUserId) {
+                $query->whereDoesntHave('blockers', function ($subQuery) use ($activityUserId) {
+                    $subQuery->where('blocker_id', $activityUserId);
+                });
+            })
             ->get();
     }
 }

@@ -65,13 +65,18 @@ class MessageController extends Controller
      */
     public function getIncomingMessageLogs(): JsonResponse
     {
-        $authId = auth()->user()->id;
+        $authId = auth()->id();
 
         $messageLogs = MessageLog::where('receiver_id', $authId)
+            ->whereDoesntHave('sender', function ($query) use ($authId) {
+                $query->whereHas('blockers', function ($q) use ($authId) {
+                    $q->where('blocker_id', $authId);
+                });
+            }, '!=', true) // engelleyen varsa dışla
             ->orderBy('created_at', 'desc')
             ->paginate($this->defaultPerPage);
-        
-        return API::success()->response(MessageLogResource::collection($messageLogs));    
+
+        return API::success()->response(MessageLogResource::collection($messageLogs));  
     }
 
     /**
@@ -79,14 +84,19 @@ class MessageController extends Controller
      * @return JsonResponse
      */
     public function getOutgoingMessageLogs(): JsonResponse
-    {
-        $authId = auth()->user()->id;
+    {        
+        $authId = auth()->id();
 
         $messageLogs = MessageLog::where('sender_id', $authId)
+            ->whereDoesntHave('receiver', function ($query) use ($authId) {
+                $query->whereHas('blockers', function ($q) use ($authId) {
+                    $q->where('blocker_id', $authId);
+                });
+            }, '!=', true) // engelleyen varsa dışla
             ->orderBy('created_at', 'desc')
             ->paginate($this->defaultPerPage);
-        
-        return API::success()->response(MessageLogResource::collection($messageLogs));    
+
+        return API::success()->response(MessageLogResource::collection($messageLogs));  
     }
 
     /**
