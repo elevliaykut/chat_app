@@ -84,10 +84,14 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $currentGender = auth()->user()->gender;
-        
+        $currentUserId = auth()->user()->id;
+
         $posts = QueryBuilder::for(Post::class)
             ->whereHas('creatorUser', function ($query) use ($currentGender) {
                 $query->where('gender', '!=', $currentGender);
+            })
+            ->whereDoesntHave('creatorUser.blockers', function ($query) use ($currentUserId) {
+                $query->where('blocker_id', $currentUserId);
             })
             ->allowedFilters([
                 AllowedFilter::exact('id'),
