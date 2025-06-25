@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Match;
 
 use App\API;
+use App\Helper\Statuses\UserStatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\Match\MatchHistory;
@@ -66,6 +67,7 @@ class MatchUserController extends Controller
             ])
             ->where('id', '!=', auth()->user()->id)
             ->where('liked_by_me', false)
+            ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->where('gender', $user->gender === 1 ? 0 : 1)
             ->inRandomOrder()
             ->first();

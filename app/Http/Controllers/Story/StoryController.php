@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Story;
 
 use App\API;
+use App\Helper\Statuses\UserStatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserStoryRequest;
 use App\Http\Resources\User\UserStoryResource;
@@ -53,7 +54,7 @@ class StoryController extends Controller
     {        
         $currentUserId = auth()->user()->id;
 
-        $users = User::where('id', '!=', $currentUserId)
+        $users = User::where('id', '!=', $currentUserId)->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->whereHas('stories', function ($query) {
             $query->where('expires_at', '>', now());
         })
