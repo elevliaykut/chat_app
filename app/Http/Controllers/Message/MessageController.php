@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Message;
 
 use App\API;
+use App\Helper\Statuses\UserStatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Message\SendMessageRequest;
 use App\Http\Resources\Message\MessageLogResource;
@@ -68,15 +69,16 @@ class MessageController extends Controller
         $authId = auth()->id();
 
         $messageLogs = MessageLog::where('receiver_id', $authId)
-            ->whereDoesntHave('sender', function ($query) use ($authId) {
-                $query->whereHas('blockers', function ($q) use ($authId) {
+        ->whereHas('sender', function ($query) use ($authId) {
+            $query->where('status', UserStatusHelper::USER_STATUS_ACTIVE) // sadece aktif kullanıcılar
+                ->whereDoesntHave('blockers', function ($q) use ($authId) {
                     $q->where('blocker_id', $authId);
                 });
-            }, '!=', true) // engelleyen varsa dışla
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->defaultPerPage);
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate($this->defaultPerPage);
 
-        return API::success()->response(MessageLogResource::collection($messageLogs));  
+        return API::success()->response(MessageLogResource::collection($messageLogs));
     }
 
     /**
