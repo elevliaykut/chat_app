@@ -226,8 +226,7 @@ class ActivityController extends Controller
     public function filter(): JsonResponse
     {
         $currentUser = auth()->user();
-        $oppositeGender = $currentUser->gender === 1 ? 0 : 1;
-
+        
         $users = QueryBuilder::for(User::class)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -263,7 +262,18 @@ class ActivityController extends Controller
             ->defaultSort('-created_at')
             ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
-            ->where('gender', $oppositeGender)
+            ->when($currentUser->gender === 0, function ($query) {
+                // Kadınsa: ödeme almış erkekleri getir
+                $query->where('gender', 1)
+                      ->whereHas('payments', function ($q) {
+                          $q->where('completed', true);
+                      });
+            })
+            ->when($currentUser->gender === 1, function ($query) {
+                // Erkek kullanıcıysa → fotoğrafı olan kadınlar
+                $query->where('gender', 0)
+                      ->whereHas('photos');
+            })
             ->paginate($this->defaultPerPage);
 
         return API::success()->response(UserResource::collection($users));
