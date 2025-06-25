@@ -88,13 +88,14 @@ class MessageController extends Controller
     public function getOutgoingMessageLogs(): JsonResponse
     {        
         $authId = auth()->id();
-
+        
         $messageLogs = MessageLog::where('sender_id', $authId)
-            ->whereDoesntHave('receiver', function ($query) use ($authId) {
-                $query->whereHas('blockers', function ($q) use ($authId) {
+        ->whereHas('receiver', function ($query) use ($authId) {
+            $query->where('status', UserStatusHelper::USER_STATUS_ACTIVE) // sadece aktif kullanıcılar
+                ->whereDoesntHave('blockers', function ($q) use ($authId) {
                     $q->where('blocker_id', $authId);
                 });
-            }, '!=', true) // engelleyen varsa dışla
+        })
             ->orderBy('created_at', 'desc')
             ->paginate($this->defaultPerPage);
 
