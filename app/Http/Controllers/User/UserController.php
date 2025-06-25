@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\API;
+use App\Helper\Statuses\UserStatusHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StorePhotoRequest;
 use App\Http\Requests\User\UploadUserProfilePhotoRequest;
@@ -364,7 +365,8 @@ class UserController extends Controller
 
         $visits = $user->profileVisitLogs()
             ->whereHas('user', function ($query) {
-                $query->whereDoesntHave('blockers', function ($subQuery) {
+                $query->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+                    ->whereDoesntHave('blockers', function ($subQuery) {
                     $subQuery->where('blocker_id', auth()->id());
                 });
             })

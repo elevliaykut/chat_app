@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Activity;
 
 use App\API;
+use App\Helper\Statuses\UserStatusHelper;
 use App\Helper\Types\UserActivityTypeHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Activity\ActivityUserResource;
@@ -260,6 +261,7 @@ class ActivityController extends Controller
                 $query->where('blocker_id', auth()->id());
             })
             ->defaultSort('-created_at')
+            ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
             ->where('gender', $oppositeGender)
             ->paginate($this->defaultPerPage);

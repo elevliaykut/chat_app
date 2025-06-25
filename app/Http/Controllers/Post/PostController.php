@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Post;
 
 use App\API;
+use App\Helper\Statuses\UserStatusHelper;
 use App\Helper\Types\PostActivityTypeHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\CreatePostRequest;
@@ -89,6 +90,9 @@ class PostController extends Controller
         $posts = QueryBuilder::for(Post::class)
             ->whereHas('creatorUser', function ($query) use ($currentGender) {
                 $query->where('gender', '!=', $currentGender);
+            })
+            ->whereHas('creatorUser', function ($query) use ($currentGender) {
+                $query->where('status', UserStatusHelper::USER_STATUS_ACTIVE);
             })
             ->whereDoesntHave('creatorUser.blockers', function ($query) use ($currentUserId) {
                 $query->where('blocker_id', $currentUserId);
