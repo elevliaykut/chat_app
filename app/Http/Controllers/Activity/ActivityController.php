@@ -291,7 +291,7 @@ class ActivityController extends Controller
         }
 
         // Online ve karşı cinsiyetteki, aynı zamanda seni engellemeyen kullanıcıları getir
-        $users = User::whereIn('id', $onlineUserIds)
+        $users = User::whereIn('id', $onlineUserIds)->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->get()
             ->filter(function ($user) use ($currentUser) {
                 return !$user->isBlockedBy($currentUser->id);
