@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Cache;
 
 class ActivityController extends Controller
 {
-    protected int $defaultPerPage = 20;
+    protected int $defaultPerPage = 100;
 
     protected UserActivityLogService $userActivityLogService;
 
@@ -224,6 +224,61 @@ class ActivityController extends Controller
      * @return JsonResponse
      */
     public function filter(): JsonResponse
+    {
+        $currentUser = auth()->user();
+        
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('creator_user_id'),
+                AllowedFilter::exact('status'),
+                AllowedFilter::scope('near_users'),
+                AllowedFilter::scope('born_today_date'),
+                AllowedFilter::exact('gender'),
+                AllowedFilter::scope('starts_between'),
+                AllowedFilter::scope('username'),
+                AllowedFilter::scope('min_age_range'),
+                AllowedFilter::scope('max_age_range'),
+                AllowedFilter::scope('min_tall'),
+                AllowedFilter::scope('max_tall'),
+                AllowedFilter::scope('min_weight'),
+                AllowedFilter::scope('max_weight'),
+                AllowedFilter::scope('city_id'),
+                AllowedFilter::scope('job'),
+                AllowedFilter::scope('marital_status'),
+                AllowedFilter::scope('have_a_child'),
+                AllowedFilter::scope('use_cigarette'),
+                AllowedFilter::scope('use_alcohol'),
+                AllowedFilter::scope('education'),
+                AllowedFilter::scope('salary'),
+                AllowedFilter::scope('physical'),
+                AllowedFilter::scope('physical'),
+                AllowedFilter::scope('has_photos'),
+                AllowedFilter::scope('head_craft'),
+            ])
+            ->whereDoesntHave('blockers', function ($query) {
+                $query->where('blocker_id', auth()->id());
+            })
+            ->defaultSort('-created_at')
+            ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+            ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
+            ->when($currentUser->gender === 0, function ($query) {
+                $query->where('gender', 1);
+            })
+            ->when($currentUser->gender === 1, function ($query) {
+                $query->where('gender', 0);
+            })
+            ->paginate($this->defaultPerPage);
+
+        return API::success()->response(UserResource::collection($users));
+    }
+    
+/**
+     * Undocumented function
+     *
+     * @return JsonResponse
+     */
+    public function getApproveUsers(): JsonResponse
     {
         $currentUser = auth()->user();
         

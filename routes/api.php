@@ -109,6 +109,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
         
         // ALL USER LIST WITH FILTER
         Route::get('/filter', [ActivityController::class, 'filter']);
+        Route::get('/approve', [ActivityController::class, 'getApproveUsers']);
     });
 
     Route::prefix('/profile/visit')->group(function() {
