@@ -47,7 +47,8 @@ class UserActivityLogService extends BaseService
             ->where('activity_user_id', $activityUserId)
             ->where('activity_type', $activityType)
             ->whereHas('user', function ($query) use ($activityUserId) {
-                $query->whereDoesntHave('blockers', function ($subQuery) use ($activityUserId) {
+                $query->where('type', 1)
+                ->whereDoesntHave('blockers', function ($subQuery) use ($activityUserId) {
                     $subQuery->where('blocker_id', $activityUserId);
                 });
             })

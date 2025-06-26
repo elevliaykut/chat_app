@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Activity\ActivityController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Definition\DefinitionController;
 use App\Http\Controllers\Match\MatchUserController;
 use App\Http\Controllers\Member\MemberController;
@@ -138,4 +139,13 @@ Route::prefix('/notification')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/', [NotificationController::class, 'index']);
     Route::post('/read-all', [NotificationController::class, 'readAll']);
     Route::delete('/{id}', [NotificationController::class, 'delete']);
+});
+
+Route::prefix('/admin')->group(function() {
+    // login
+    Route::post('/login', [AdminController::class, 'login']);
+});
+
+Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
+    Route::get('/user', [AdminController::class, 'getUsers']);
 });

@@ -261,6 +261,7 @@ class ActivityController extends Controller
             })
             ->defaultSort('-created_at')
             ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+            ->where('type', 1)
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
             ->when($currentUser->gender === 0, function ($query) {
                 $query->where('gender', 1);
@@ -316,6 +317,7 @@ class ActivityController extends Controller
             })
             ->defaultSort('-created_at')
             ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+            ->where('type', 1)
             ->where('id', '!=', auth()->id()) // Burada kendi kullanıcıyı dışladık
             ->when($currentUser->gender === 0, function ($query) {
                 // Kadınsa: ödeme almış erkekleri getir
@@ -345,7 +347,9 @@ class ActivityController extends Controller
         $oppositeGender = $currentUser->gender === 1 ? 0 : 1;
 
         // Karşı cinsiyetteki kullanıcıların ID'lerini al
-        $allUserIds = User::where('gender', $oppositeGender)->pluck('id');
+        $allUserIds = User::where('gender', $oppositeGender)
+            ->where('type', 1)
+            ->pluck('id');
 
         $onlineUserIds = [];
 

@@ -366,6 +366,7 @@ class UserController extends Controller
         $visits = $user->profileVisitLogs()
             ->whereHas('user', function ($query) {
                 $query->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+                    ->where('type', 1)
                     ->whereDoesntHave('blockers', function ($subQuery) {
                     $subQuery->where('blocker_id', auth()->id());
                 });

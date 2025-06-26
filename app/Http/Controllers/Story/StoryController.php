@@ -53,8 +53,11 @@ class StoryController extends Controller
     public function index(Request $request)
     {        
         $currentUserId = auth()->user()->id;
+        $oppositeGender = auth()->user()->gender === 1 ? 0 : 1;
 
-        $users = User::where('id', '!=', $currentUserId)->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+        $users = User::where('id', '!=', $currentUserId)
+            ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
+            ->where('gender', $oppositeGender)
             ->whereHas('stories', function ($query) {
             $query->where('expires_at', '>', now());
         })

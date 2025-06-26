@@ -67,6 +67,7 @@ class MatchUserController extends Controller
             ])
             ->where('id', '!=', auth()->user()->id)
             ->where('liked_by_me', false)
+            ->where('type', 1)
             ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->where('gender', $user->gender === 1 ? 0 : 1)
             ->inRandomOrder()
