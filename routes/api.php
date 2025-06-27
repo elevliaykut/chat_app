@@ -154,4 +154,8 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     // STORY SERVICE
     Route::get('/user/stories', [AdminController::class, 'stories']);
     Route::post('/user/approve/story/{storyId}', [AdminController::class, 'approveStory']);
+
+    // POST SERVICE
+    Route::get('/user/posts', [AdminController::class, 'posts']);
+    Route::post('/user/approve/post/{postId}', [AdminController::class, 'approvePost']);
 });

@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
+use App\Models\Post\Post;
 use App\Models\User;
 use App\Models\User\Story;
 use App\Services\User\UserService;

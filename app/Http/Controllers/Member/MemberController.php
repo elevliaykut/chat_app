@@ -43,15 +43,24 @@ class MemberController extends Controller
      */
     public function getMemberPosts(int $memberId): JsonResponse
     {
-        $posts = QueryBuilder::for(Post::class)
+        $currentUserId = auth()->user()->id;
+
+        $postsQuery = QueryBuilder::for(Post::class)
             ->where('creator_user_id', $memberId)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('creator_user_id'),
                 AllowedFilter::exact('status')
             ])
-            ->defaultSort('-created_at')
-            ->get();
+            ->defaultSort('-created_at');
+        
+        if ($currentUserId !== $memberId) {
+            $postsQuery->where('status', 1);
+        }
+
+        $posts = $postsQuery->get();
+        
+
         return API::success()->response(PostListResource::collection($posts));
     }
 }

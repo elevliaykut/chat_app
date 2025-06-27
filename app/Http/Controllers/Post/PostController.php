@@ -88,6 +88,7 @@ class PostController extends Controller
         $currentUserId = auth()->user()->id;
 
         $posts = QueryBuilder::for(Post::class)
+            ->where('status', 1)
             ->whereHas('creatorUser', function ($query) use ($currentGender) {
                 $query->where('gender', '!=', $currentGender);
             })
