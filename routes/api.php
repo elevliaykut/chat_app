@@ -147,5 +147,7 @@ Route::prefix('/admin')->group(function() {
 });
 
 Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
+    // USER SERVICE
     Route::get('/user', [AdminController::class, 'getUsers']);
+    Route::delete('/user/{userId}', [AdminController::class, 'deleteUser']);
 });

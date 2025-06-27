@@ -49,10 +49,29 @@ class AdminController extends Controller
             ->response(AdminLoginResource::make($user));
     }
 
-    public function getUsers()
+    /**
+     *
+     * @return JsonResponse
+     */
+    public function getUsers(): JsonResponse
     {
         $users = User::where('type', 1)->get();
 
         return API::success()->response(UserResource::collection($users));
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param integer $userId
+     * @return JsonResponse
+     */
+    public function deleteUser(int $userId): JsonResponse
+    {
+        $user = $this->userService->retrieveById($userId);
+
+        $user->delete();
+
+        return API::success()->response();
     }
 }
