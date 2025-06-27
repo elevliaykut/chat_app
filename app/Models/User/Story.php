@@ -14,7 +14,8 @@ class Story extends Model
         'user_id',
         'media_path',
         'caption',
-        'expires_at'
+        'expires_at',
+        'status'
     ];
 
     public function user()

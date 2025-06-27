@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
 use App\Http\Resources\User\UserResource;
+use App\Http\Resources\User\UserStoryResource;
 use App\Models\User;
+use App\Models\User\Story;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
@@ -73,5 +75,30 @@ class AdminController extends Controller
         $user->delete();
 
         return API::success()->response();
+    }
+
+    /**
+     *
+     * @return JsonResponse
+     */
+    public function stories(): JsonResponse
+    {
+        $stories = Story::where('status', 0)->get();
+
+        return API::success()->response(UserStoryResource::collection($stories));
+    }
+
+    /**
+     *
+     * @param integer $storyId
+     * @return JsonResponse
+     */
+    public function approveStory(int $storyId): JsonResponse
+    {
+        $story = Story::where('id', $storyId)->first();
+
+        $story->update(['status' => 1]);
+
+        return API::success()->response(UserStoryResource::make($story));
     }
 }

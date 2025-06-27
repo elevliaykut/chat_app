@@ -14,7 +14,8 @@ class StoryService extends BaseService
         'user_id',
         'media_path',
         'caption',
-        'expires_at'
+        'expires_at',
+        'status'
     ];
 
     /**

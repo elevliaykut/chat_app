@@ -63,6 +63,7 @@ class StoryController extends Controller
         })
         ->with(['stories' => function ($query) {
             $query->where('expires_at', '>', now())
+                ->where('status', 1)
                   ->orderBy('created_at', 'asc');
         }])
         ->get();
