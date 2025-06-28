@@ -6,6 +6,7 @@ use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
+use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
 use App\Models\Post\Post;
@@ -101,5 +102,21 @@ class AdminController extends Controller
         $story->update(['status' => 1]);
 
         return API::success()->response(UserStoryResource::make($story));
+    }
+
+    public function posts()
+    {
+        $posts = Post::where('status', 0)->get();
+
+        return API::success()->response(PostListResource::collection($posts));
+    }
+
+    public function approvePost(int $postId)
+    {
+        $post = Post::where('id', $postId)->first();
+
+        $post->update(['status' => 1]);
+
+        return API::success()->response(PostListResource::make($post));
     }
 }

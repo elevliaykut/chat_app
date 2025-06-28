@@ -57,7 +57,7 @@ class PostController extends Controller
         $validatedData = $createPostRequest->validated();
 
         $validatedData['creator_user_id'] = auth()->user()->id;
-        $validatedData['status'] = 1;
+        $validatedData['status'] = 0;
 
         $post = $this->postService->create($validatedData);
 
