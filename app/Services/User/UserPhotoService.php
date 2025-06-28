@@ -16,7 +16,8 @@ class UserPhotoService extends BaseService
     protected array $fieldSearchable = [
         'user_id',
         'photo_path',
-        'media_id'
+        'media_id',
+        'status'
     ];
 
     /**

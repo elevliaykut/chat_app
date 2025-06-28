@@ -14,7 +14,8 @@ class UserPhoto extends Model
     protected $fillable = [
         'user_id',
         'photo_path',
-        'media_id'
+        'media_id',
+        'status'
     ];
 
     /**
@@ -22,6 +23,6 @@ class UserPhoto extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

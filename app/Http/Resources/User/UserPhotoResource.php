@@ -16,8 +16,9 @@ class UserPhotoResource extends JsonResource
     {
         return [
             'id'                => $this->id,
-            'user_id'           => $this->user_id,
+            'user'              => UserResource::make($this->user),
             'photo_path'        => $this->photo_path,
+            'status'            => $this->status,
             'created_at'        => $this->created_at,
             'updated_at'        => $this->updated_at
         ];

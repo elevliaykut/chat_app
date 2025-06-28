@@ -193,8 +193,16 @@ class UserController extends Controller
      */
     public function listPhoto(int $userId): JsonResponse
     {
+        $currentUserId = auth()->id();
         $user = $this->userService->retrieveById($userId);
-        return API::success()->response(UserPhotoResource::collection($user->photos));
+
+        $photos = $user->photos;
+
+        if ($userId !== $currentUserId) {
+            $photos = $photos->where('status', 1);
+        }
+
+        return API::success()->response(UserPhotoResource::collection($photos));
     }
 
     /**

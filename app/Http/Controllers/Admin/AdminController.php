@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
 use App\Http\Resources\Post\PostListResource;
+use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
 use App\Models\Post\Post;
 use App\Models\User;
 use App\Models\User\Story;
+use App\Models\User\UserPhoto;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
@@ -118,5 +120,21 @@ class AdminController extends Controller
         $post->update(['status' => 1]);
 
         return API::success()->response(PostListResource::make($post));
+    }
+
+    public function photos()
+    {
+        $userPhotos = UserPhoto::where('status', 0)->get();
+        
+        return API::success()->response(UserPhotoResource::collection($userPhotos));
+    }
+
+    public function approvePhoto(int $photoId)
+    {
+        $photo = UserPhoto::where('id', $photoId)->first();
+
+        $photo->update(['status' => 1]);
+
+        return API::success()->response(UserPhotoResource::make($photo));
     }
 }
