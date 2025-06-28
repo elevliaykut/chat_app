@@ -71,7 +71,9 @@ class UserAuthController extends Controller
     {
         $validatedData = $userLoginRequest->validated();
 
-        $user = $this->userService->getUserNameWithTypes($validatedData['username'], UserTypeHelper::USER_TYPE_CLIENT);
+        $types = [UserTypeHelper::USER_TYPE_ADMIN, UserTypeHelper::USER_TYPE_CLIENT];
+        
+        $user = $this->userService->getUserNameWithTypes($validatedData['username'], $types);
 
         if(!$user) {
             return API::error()->errorMessage('Kullanıcı Bulunamadı')->response();

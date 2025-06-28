@@ -85,9 +85,9 @@ class UserService extends BaseService
      * @param int $type
      * @return Builder|Model
      */
-    public function getUserNameWithTypes(string $userName, int $type)
+    public function getUserNameWithTypes(string $userName, array $types)
     {
-        return $this->model->newQuery()->where('username', $userName)->where('type', $type)->first();
+        return $this->model->newQuery()->where('username', $userName)->whereIn('type', $types)->first();
     }
 
     /**

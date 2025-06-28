@@ -67,9 +67,19 @@ class AdminController extends Controller
     }
 
     /**
-     * Undocumented function
+     * @param int $userId
+     * @return JsonResponse
+     */
+    public function getUserDetail(int $userId)
+    {
+        $user = User::where('id', $userId)->first();
+
+        return API::success()->response(UserResource::make($user));
+    }
+
+    /**
      *
-     * @param integer $userId
+     * @param int $userId
      * @return JsonResponse
      */
     public function deleteUser(int $userId): JsonResponse

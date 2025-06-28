@@ -149,6 +149,7 @@ Route::prefix('/admin')->group(function() {
 Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     // USER SERVICE
     Route::get('/user', [AdminController::class, 'getUsers']);
+    Route::get('/user/{userId}', [AdminController::class, 'getUserDetail']);
     Route::delete('/user/{userId}', [AdminController::class, 'deleteUser']);
 
     // STORY SERVICE
