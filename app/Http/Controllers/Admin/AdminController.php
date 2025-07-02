@@ -6,12 +6,14 @@ use App\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
+use App\Http\Resources\Payment\PaymentListResource;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserDetailResource;
 use App\Http\Resources\User\UserMeDetailResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
+use App\Models\Payment\Payment;
 use App\Models\Post\Post;
 use App\Models\User;
 use App\Models\User\Story;
@@ -168,5 +170,21 @@ class AdminController extends Controller
         $userDetail->update(['profile_text_status' => 1 ]);
 
         return API::success()->response();
+    }
+
+    public function paymentList()
+    {
+        $payments = Payment::where('completed', false)->get();
+
+        return API::success()->response(PaymentListResource::collection($payments));
+    }
+
+    public function approvePayment(int $paymentId)
+    {
+        $payment = Payment::where('id', $paymentId)->first();
+
+        $payment->update(['completed' => true ]);
+
+        return API::success()->response(PaymentListResource::make($payment));
     }
 }

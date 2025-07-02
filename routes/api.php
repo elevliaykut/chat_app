@@ -168,4 +168,8 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     // profile text service
     Route::get('/user/profile/text/list', [AdminController::class, 'profileTextList']);
     Route::post('/user/profile/text/approve/{detailId}', [AdminController::class, 'profileTextApprove']);
+
+    // payments services
+    Route::get('/user/payment/list', [AdminController::class, 'paymentList']);
+    Route::get('/user/payment/approve/{paymentId}', [AdminController::class, 'approvePayment']);
 });
