@@ -153,7 +153,7 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     Route::delete('/user/{userId}', [AdminController::class, 'deleteUser']);
 
     // STORY SERVICE
-    Route::get('/user/stories', [AdminController::class, 'stories']);
+    Route::get('/user/stories/list', [AdminController::class, 'stories']);
     Route::post('/user/approve/story/{storyId}', [AdminController::class, 'approveStory']);
 
     // POST SERVICE
@@ -161,6 +161,6 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     Route::post('/user/approve/post/{postId}', [AdminController::class, 'approvePost']);
 
     //PHOTOS SERVICE
-    Route::get('/user/photos', [AdminController::class, 'photos']);
-    Route::get('/user/approve/photo/{photoId}', [AdminController::class, 'approvePhoto']);
+    Route::get('/user/photos/list', [AdminController::class, 'photos']);
+    Route::post('/user/approve/photo/{photoId}', [AdminController::class, 'approvePhoto']);
 });
