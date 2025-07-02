@@ -163,4 +163,8 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     //PHOTOS SERVICE
     Route::get('/user/photos/list', [AdminController::class, 'photos']);
     Route::post('/user/approve/photo/{photoId}', [AdminController::class, 'approvePhoto']);
+
+    // profile text service
+    Route::get('/user/profile/text/list', [AdminController::class, 'profileTextList']);
+    Route::post('/user/profile/text/approve/{detailId}', [AdminController::class, 'profileTextApprove']);
 });

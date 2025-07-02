@@ -20,6 +20,9 @@ class UserDetailResource extends JsonResource
     {
         return [
             'id'                                => $this->id,
+            'user_id'                           => $this->user->id,
+            'user_name'                         => $this->user->name,
+            'user_surname'                      => $this->user->surname,
             'profile_summary'                   => $this->profile_summary,
             'biography'                         => $this->biography,
             'horoscope'                         => $this->horoscope,

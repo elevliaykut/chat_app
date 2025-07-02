@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Models\Definitions\City;
 use App\Models\Definitions\District;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -50,8 +51,17 @@ class UserDetail extends Model
         'looking_qualities', // eş adayında aradığınız uyum
         'your_hobbies', // hobileriniz
         'your_personality', // kişiliğiniz
-        'physical_disability' //fiziksel engel
+        'physical_disability', //fiziksel engel,
+        'profile_text_status'
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
      /**
      * @return BelongsTo

@@ -7,12 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
 use App\Http\Resources\Post\PostListResource;
+use App\Http\Resources\User\UserDetailResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
 use App\Models\Post\Post;
 use App\Models\User;
 use App\Models\User\Story;
+use App\Models\User\UserDetail;
 use App\Models\User\UserPhoto;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Hash;
@@ -146,5 +148,24 @@ class AdminController extends Controller
         $photo->update(['status' => 1]);
 
         return API::success()->response(UserPhotoResource::make($photo));
+    }
+
+    public function profileTextList()
+    {
+        $details = UserDetail::whereNotNull('profile_summary')
+                        ->where('profile_summary', '!=', '')
+                        ->where('profile_text_status', 0)
+                        ->get();
+
+        return API::success()->response(UserDetailResource::collection($details));
+    }
+
+    public function profileTextApprove(int $detailId)
+    {
+        $userDetail = UserDetail::where('id', $detailId)->first();
+
+        $userDetail->update(['profile_text_status' => 1 ]);
+
+        return API::success()->response();
     }
 }
