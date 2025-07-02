@@ -51,6 +51,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/photo/{userId}', [UserController::class, 'listPhoto']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
     Route::post('/upload-profile-photo', [UserController::class, 'uploadProfilePhoto']);
+    Route::get('/photos', [UserController::class, 'photos']);
 
     /************* My Posts *********************/
     Route::get('/my-posts', [UserController::class, 'myPosts']);
@@ -171,5 +172,5 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
 
     // payments services
     Route::get('/user/payment/list', [AdminController::class, 'paymentList']);
-    Route::get('/user/payment/approve/{paymentId}', [AdminController::class, 'approvePayment']);
+    Route::post('/user/payment/approve/{paymentId}', [AdminController::class, 'approvePayment']);
 });

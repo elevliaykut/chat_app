@@ -19,6 +19,7 @@ use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserProfileVisitResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\Post\Post;
+use App\Models\User\UserPhoto;
 use App\Services\Notification\NotificationService;
 use App\Services\User\UserCaracteristicService;
 use App\Services\User\UserDetailService;
@@ -240,6 +241,25 @@ class UserController extends Controller
 
         $user = $this->userService->update($data, auth()->user()->id);
         return API::success()->response(UserResource::make($user));
+    }
+    
+    /**
+     * @return JsonResponse
+     */
+    public function photos(): JsonResponse
+    {
+        $user = auth()->user();
+
+        $oppositeGender = $user->gender === 0 ? 1 : 0;
+
+        $photos = UserPhoto::where('status', 1)
+            ->where('user_id', '!=', $user->id)
+            ->whereHas('user', function ($query) use ($oppositeGender) {
+                $query->where('gender', $oppositeGender);
+            })
+            ->get();
+
+        return API::success()->response(UserPhotoResource::collection($photos));
     }
 
     /**
