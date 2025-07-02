@@ -104,45 +104,42 @@ class StoryController extends Controller
     {
         $currentUserId = auth()->user()->id;
 
-        $users = User::where('id', $currentUserId)
-            ->whereHas('stories', function ($query) {
-                $query->where('expires_at', '>', now());
-            })
+        $user = User::where('id', $currentUserId)
             ->with(['stories' => function ($query) {
                 $query->where('expires_at', '>', now())
                     ->orderBy('created_at', 'asc');
             }])
-            ->get();
+            ->first();
 
-        // stories boş olmayan kullanıcıları filtrele
-        $data = $users->filter(function ($user) {
-            return $user->stories->isNotEmpty();
-        })->values();
-
-        if ($data->isNotEmpty()) {
-            return response()->json([
-                'data' => $data->map(function ($user) {
-                    return [
-                        'user_id' => $user->id,
-                        'username' => $user->username,
-                        'profile_photo_url' => $user->profile_photo_path,
-                        'stories' => $user->stories->map(function ($story) {
-                            return [
-                                'id' => $story->id,
-                                'media_url' => $story->media_path,
-                                'created_at' => $story->created_at,
-                                'expires_at' => $story->expires_at,
-                                'status' => $story->status,
-                            ];
-                        })
-                    ];
-                })
-            ]);
+        // Eğer kullanıcı yoksa boş dizi dön
+        if (!$user) {
+            return response()->json(['data' => []]);
         }
 
-        // Eğer hiç story yoksa boş dizi dön
-        return response()->json(['data' => []]);
+        // Aktif story'leri filtrele
+        $activeStories = $user->stories->filter(function ($story) {
+            return $story->expires_at > now();
+        })->values();
 
+        return response()->json([
+            'data' => [
+                [
+                    'user_id' => $user->id,
+                    'username' => $user->username,
+                    'profile_photo_url' => $user->profile_photo_path,
+                    'stories' => $activeStories->map(function ($story) {
+                        return [
+                            'id' => $story->id,
+                            'media_url' => $story->media_path,
+                            'created_at' => $story->created_at,
+                            'expires_at' => $story->expires_at,
+                            'status' => $story->status,
+                        ];
+                    }),
+                ]
+            ]
+        ]);
     }
+
 
 }
