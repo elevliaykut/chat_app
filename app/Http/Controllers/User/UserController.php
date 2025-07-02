@@ -14,6 +14,7 @@ use App\Http\Requests\User\UserReportRequest;
 use App\Http\Requests\User\UserSpouseCandidateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\Post\PostListResource;
+use App\Http\Resources\User\UserMeResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserProfileVisitResource;
 use App\Http\Resources\User\UserResource;
@@ -83,7 +84,7 @@ class UserController extends Controller
     {
         $user = $this->userService->retrieveById(auth()->user()->id);
 
-        return API::success()->response(UserResource::make($user));
+        return API::success()->response(UserMeResource::make($user));
     }
 
     /**

@@ -9,7 +9,7 @@ use App\Models\Definitions\District;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserDetailResource extends JsonResource
+class UserMeDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,7 +23,7 @@ class UserDetailResource extends JsonResource
             'user_id'                           => $this->user->id,
             'user_name'                         => $this->user->name,
             'user_surname'                      => $this->user->surname,
-            'profile_summary'                   => $this->profile_text_status === 1 ? $this->profile_summary : null,
+            'profile_summary'                   => $this->profile_summary,
             'biography'                         => $this->biography,
             'horoscope'                         => $this->horoscope,
             'city'                              => CityResource::make($this->city),
