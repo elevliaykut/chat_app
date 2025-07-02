@@ -59,31 +59,90 @@ class StoryController extends Controller
             ->where('status', UserStatusHelper::USER_STATUS_ACTIVE)
             ->where('gender', $oppositeGender)
             ->whereHas('stories', function ($query) {
-            $query->where('expires_at', '>', now());
-        })
-        ->with(['stories' => function ($query) {
-            $query->where('expires_at', '>', now())
-                ->where('status', 1)
-                  ->orderBy('created_at', 'asc');
-        }])
-        ->get();
-    
-        return response()->json([
-            'data' => $users->map(function ($user) {
-                return [
-                    'user_id' => $user->id,
-                    'username' => $user->username,
-                    'profile_photo_url' => $user->profile_photo_path,
-                    'stories' => $user->stories->map(function ($story) {
-                        return [
-                            'id' => $story->id,
-                            'media_url' => $story->media_path,
-                            'created_at' => $story->created_at,
-                            'expires_at' => $story->expires_at,
-                        ];
-                    })
-                ];
+                $query->where('expires_at', '>', now());
             })
-        ]);
+            ->with(['stories' => function ($query) {
+                $query->where('expires_at', '>', now())
+                    ->where('status', 1)
+                    ->orderBy('created_at', 'asc');
+            }])
+            ->get();
+
+        $data = $users->filter(function ($user) {
+            return $user->stories->isNotEmpty();
+        })->values();
+
+        if ($data->isNotEmpty()) {
+            return response()->json([
+                'data' => $data->map(function ($user) {
+                    return [
+                        'user_id' => $user->id,
+                        'username' => $user->username,
+                        'profile_photo_url' => $user->profile_photo_path,
+                        'stories' => $user->stories->map(function ($story) {
+                            return [
+                                'id' => $story->id,
+                                'media_url' => $story->media_path,
+                                'created_at' => $story->created_at,
+                                'expires_at' => $story->expires_at,
+                            ];
+                        })
+                    ];
+                })
+            ]);
+        }
+
+        // Hiç story yoksa boş response dön
+        return response()->json(['data' => []]);
+
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function myStory(Request $request)
+    {
+        $currentUserId = auth()->user()->id;
+
+        $users = User::where('id', $currentUserId)
+            ->whereHas('stories', function ($query) {
+                $query->where('expires_at', '>', now());
+            })
+            ->with(['stories' => function ($query) {
+                $query->where('expires_at', '>', now())
+                    ->orderBy('created_at', 'asc');
+            }])
+            ->get();
+
+        // stories boş olmayan kullanıcıları filtrele
+        $data = $users->filter(function ($user) {
+            return $user->stories->isNotEmpty();
+        })->values();
+
+        if ($data->isNotEmpty()) {
+            return response()->json([
+                'data' => $data->map(function ($user) {
+                    return [
+                        'user_id' => $user->id,
+                        'username' => $user->username,
+                        'profile_photo_url' => $user->profile_photo_path,
+                        'stories' => $user->stories->map(function ($story) {
+                            return [
+                                'id' => $story->id,
+                                'media_url' => $story->media_path,
+                                'created_at' => $story->created_at,
+                                'expires_at' => $story->expires_at,
+                                'status' => $story->status,
+                            ];
+                        })
+                    ];
+                })
+            ]);
+        }
+
+        // Eğer hiç story yoksa boş dizi dön
+        return response()->json(['data' => []]);
+
+    }
+
 }

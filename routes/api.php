@@ -121,6 +121,7 @@ Route::prefix('/user')->middleware(['auth:sanctum'])->group(function() {
     Route::prefix('/story')->group(function() {
         Route::post('/', [StoryController::class, 'store']);
         Route::get('/', [StoryController::class, 'index']);
+        Route::get('/me', [StoryController::class, 'myStory']);
     });
 
     Route::prefix('/payment')->group(function() {
