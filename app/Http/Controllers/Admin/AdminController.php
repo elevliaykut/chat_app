@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\AdminLoginRequest;
 use App\Http\Resources\Admin\AdminLoginResource;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserDetailResource;
+use App\Http\Resources\User\UserMeDetailResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
@@ -157,7 +158,7 @@ class AdminController extends Controller
                         ->where('profile_text_status', 0)
                         ->get();
 
-        return API::success()->response(UserDetailResource::collection($details));
+        return API::success()->response(UserMeDetailResource::collection($details));
     }
 
     public function profileTextApprove(int $detailId)
