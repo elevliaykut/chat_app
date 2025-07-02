@@ -62,7 +62,7 @@ class UserDetailResource extends JsonResource
             'your_hobbies'                      => $this->your_hobbies,
             'your_personality'                  => $this->your_personality,
             'physical_disability'               => $this->physical_disability,
-            'profile_text_status'               => $this->profie_text_status,
+            'profile_text_status'               => $this->profile_text_status,
             'created_at'                        => $this->created_at,
             'updated_at'                        => $this->updated_at
         ];              
