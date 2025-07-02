@@ -157,7 +157,7 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     Route::post('/user/approve/story/{storyId}', [AdminController::class, 'approveStory']);
 
     // POST SERVICE
-    Route::get('/user/posts', [AdminController::class, 'posts']);
+    Route::get('/user/posts/list', [AdminController::class, 'posts']);
     Route::post('/user/approve/post/{postId}', [AdminController::class, 'approvePost']);
 
     //PHOTOS SERVICE
