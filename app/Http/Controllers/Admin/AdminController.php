@@ -11,10 +11,12 @@ use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserDetailResource;
 use App\Http\Resources\User\UserMeDetailResource;
 use App\Http\Resources\User\UserPhotoResource;
+use App\Http\Resources\User\UserReportResource;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserStoryResource;
 use App\Models\Payment\Payment;
 use App\Models\Post\Post;
+use App\Models\Report\Report;
 use App\Models\User;
 use App\Models\User\Story;
 use App\Models\User\UserDetail;
@@ -186,5 +188,21 @@ class AdminController extends Controller
         $payment->update(['completed' => true ]);
 
         return API::success()->response(PaymentListResource::make($payment));
+    }
+
+    public function reportsList()
+    {
+        $reports = Report::get();
+
+        return API::success()->response(UserReportResource::collection($reports));
+    }
+
+    public function deleteReport(int $reportId)
+    {
+        $report = Report::where('id', $reportId)->first();
+
+        $report->delete();
+
+        return API::success()->response();
     }
 }
