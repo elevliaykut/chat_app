@@ -126,6 +126,14 @@ class UserController extends Controller
 
         $this->userDetailService->updateOrCreate($validatedData);
 
+        if(isset($validatedData['profile_summary'])) {
+            $data = [
+                'profile_text_status'       => 0,
+                'user_id'                   => auth()->user()->id
+            ];
+            $this->userDetailService->updateOrCreate($data);
+        }
+
         return API::success()->response(UserResource::make($user));
 
     }

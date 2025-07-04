@@ -6,6 +6,7 @@ use App\Helper\Types\UserMaritalStatusHelper;
 use App\Http\Resources\Definitions\CityResource;
 use App\Http\Resources\Definitions\DistrictResource;
 use App\Models\Definitions\District;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -63,8 +64,8 @@ class UserMeDetailResource extends JsonResource
             'your_personality'                  => $this->your_personality,
             'physical_disability'               => $this->physical_disability,
             'profile_text_status'               => $this->profile_text_status,
-            'created_at'                        => $this->created_at,
-            'updated_at'                        => $this->updated_at
+            'created_at'                        => Carbon::parse($this->created_at)->format('d.m.Y H:i'),
+            'updated_at'                        => Carbon::parse($this->updated_at)->format('d.m.Y H:i'),
         ];              
     }
 }

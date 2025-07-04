@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Payment;
 
 use App\Http\Resources\User\UserResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,7 +29,7 @@ class PaymentListResource extends JsonResource
             'description'           => $this->description,
             'code'                  => $this->code,
             'completed'             => $this->completed,
-            'created_at'            => $this->created_at
+            'created_at'            => Carbon::parse($this->created_at)->format('d.m.Y H:i'),
         ];
     }
 }

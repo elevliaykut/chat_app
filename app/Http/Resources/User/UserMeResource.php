@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -43,8 +44,8 @@ class UserMeResource extends JsonResource
             'caracterisric_feature'         => UserCaracteristicFeatureResource::make($this->caracteristicFeature),
             'is_online'                     => $this->is_online,
             'online_member_count'           => $this->all_member_count,
-            'created_at'                    => $this->created_at,
-            'updaeted_at'                   => $this->updaeted_at,
+            'created_at'                    => Carbon::parse($this->created_at)->format('d.m.Y H:i'),
+            'updaeted_at'                   => Carbon::parse($this->updated_at)->format('d.m.Y H:i'),
         ];
     }
 }
