@@ -205,4 +205,26 @@ class AdminController extends Controller
 
         return API::success()->response();
     }
+
+    public function profilePhotoList()
+    {
+        $users = User::where('photo_approve', 0)
+                ->whereNotNull('profile_photo_path')
+                ->get();
+
+        return API::success()->response(UserResource::collection($users));
+    }
+
+    public function approveProfilePhoto(int $userId)
+    {
+        $user = $this->userService->retrieveById($userId);
+
+        $data = [
+            'photo_approve'             => 1,
+        ];
+
+        $user = $this->userService->update($data, $userId);
+        
+        return API::success()->response(UserResource::make($user));
+    }
 }

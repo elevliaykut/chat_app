@@ -236,7 +236,8 @@ class UserController extends Controller
         $imageUrl = asset('storage/uploads/' . $fileName);
 
         $data = [
-            'profile_photo_path'        => $imageUrl
+            'profile_photo_path'        => $imageUrl,
+            'photo_approve'             => 0,
         ];
 
         $user = $this->userService->update($data, auth()->user()->id);

@@ -78,7 +78,7 @@ class StoryController extends Controller
                     return [
                         'user_id' => $user->id,
                         'username' => $user->username,
-                        'profile_photo_url' => $user->profile_photo_path,
+                        'profile_photo_url' => $user->photo_approve === 1 ? $user->profile_photo_path : null,
                         'stories' => $user->stories->map(function ($story) {
                             return [
                                 'id' => $story->id,

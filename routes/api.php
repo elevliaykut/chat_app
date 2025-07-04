@@ -174,6 +174,11 @@ Route::prefix('/admin')->middleware(['auth:sanctum'])->group(function() {
     Route::get('/user/payment/list', [AdminController::class, 'paymentList']);
     Route::post('/user/payment/approve/{paymentId}', [AdminController::class, 'approvePayment']);
 
+    // reports service
     Route::get('/user/reports/list', [AdminController::class, 'reportsList']);
     Route::delete('/user/report/{reportId}', [AdminController::class, 'deleteReport']);
+
+    // profile photos
+    Route::get('/user/profile-photos/list', [AdminController::class, 'profilePhotoList']);
+    Route::post('/user/profile-photo/approve/{userId}', [AdminController::class, 'approveProfilePhoto']);
 });

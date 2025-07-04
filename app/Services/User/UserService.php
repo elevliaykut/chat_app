@@ -34,6 +34,7 @@ class UserService extends BaseService
         'smile_count',
         'gender',
         'phone_verified_at',
+        'photo_approve',
         'created_at',
         'updated_at'
     ];
