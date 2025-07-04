@@ -10,6 +10,7 @@ use App\Http\Resources\Payment\PaymentListResource;
 use App\Http\Resources\Post\PostListResource;
 use App\Http\Resources\User\UserDetailResource;
 use App\Http\Resources\User\UserMeDetailResource;
+use App\Http\Resources\User\UserMeResource;
 use App\Http\Resources\User\UserPhotoResource;
 use App\Http\Resources\User\UserReportResource;
 use App\Http\Resources\User\UserResource;
@@ -70,7 +71,7 @@ class AdminController extends Controller
     {
         $users = User::where('type', 1)->get();
 
-        return API::success()->response(UserResource::collection($users));
+        return API::success()->response(UserMeResource::collection($users));
     }
 
     /**
@@ -81,7 +82,7 @@ class AdminController extends Controller
     {
         $user = User::where('id', $userId)->first();
 
-        return API::success()->response(UserResource::make($user));
+        return API::success()->response(UserMeResource::make($user));
     }
 
     /**

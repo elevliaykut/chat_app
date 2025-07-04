@@ -208,6 +208,19 @@ class UserController extends Controller
     }
 
     /**
+     * @param int $photoId
+     * @return JsonResponse
+     */
+    public function deletePhoto(int $photoId): JsonResponse
+    {
+        $photo = UserPhoto::where('id', $photoId)->first();
+
+        $photo->delete();
+
+        return API::success()->response();
+    }
+
+    /**
      * @param UserChangePasswordRequest $userChangePasswordRequest
      * @return JsonResponse
      */
