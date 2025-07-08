@@ -22,6 +22,8 @@ class Payment extends Model
         'price',
         'description',
         'completed',
+        'expired_date',
+        'package_time',
         'code'
     ];
 

@@ -38,8 +38,12 @@ class PaymentController extends Controller
         $userId = auth()->user()->id;
 
         $validatedData['user_id'] = $userId;
+        $validatedData['completed'] = false;
         
-        $payment = $this->paymentService->create($validatedData);
+        $payment = Payment::updateOrCreate(
+            ['user_id' => $userId], 
+            $validatedData
+        );
 
         return API::success()->response(PaymentListResource::make($payment));
     }

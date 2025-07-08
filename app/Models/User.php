@@ -89,9 +89,9 @@ class User extends Authenticatable
         return $this->hasMany(Story::class);
     }
 
-    public function payments()
+    public function payment()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class, 'user_id', 'id');
     }
 
     public function getIsOnlineAttribute()

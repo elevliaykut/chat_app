@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,6 +34,7 @@ class UserLoginResource extends JsonResource
             'favorite_count'                => $this->favorite_count,
             'smile_count'                   => $this->smile_count,
             'is_online'                     => $this->is_online,
+            'is_that_active'                => Carbon::parse($this->payment->expired_date)->isFuture(),
             'created_at'                    => $this->created_at,
             'updaeted_at'                   => $this->updaeted_at,
         ];

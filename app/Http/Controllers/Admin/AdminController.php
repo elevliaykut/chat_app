@@ -26,6 +26,7 @@ use App\Services\User\UserService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -186,7 +187,12 @@ class AdminController extends Controller
     {
         $payment = Payment::where('id', $paymentId)->first();
 
-        $payment->update(['completed' => true ]);
+        $expiredDate = Carbon::parse($payment->payment_date)->addMonths($payment->package_time);
+        
+        $payment->update([
+            'completed'         => true,
+            'expired_date'      => $expiredDate
+        ]);
 
         return API::success()->response(PaymentListResource::make($payment));
     }
