@@ -74,11 +74,11 @@ class AdminController extends Controller
     {
         $users = QueryBuilder::for(User::class)
             ->allowedFilters([
-                AllowedFilter::exact('username'),
+                AllowedFilter::scope('username'),
             ])
             ->where('type', 1)
             ->get();
-            
+
         return API::success()->response(UserMeResource::collection($users));
     }
 
