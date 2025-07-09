@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Carbon\Carbon;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class AdminController extends Controller
 {
@@ -70,8 +72,13 @@ class AdminController extends Controller
      */
     public function getUsers(): JsonResponse
     {
-        $users = User::where('type', 1)->get();
-
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::exact('username'),
+            ])
+            ->where('type', 1)
+            ->get();
+            
         return API::success()->response(UserMeResource::collection($users));
     }
 
