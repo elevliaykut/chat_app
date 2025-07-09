@@ -242,6 +242,9 @@ class User extends Authenticatable
         if ($this->gender === 0) {
             return true;
         }
+        if (!$this->payment) {
+            return false;
+        }
         if (!$this->payment->expired_date) {
             return false;
         }
