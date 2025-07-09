@@ -237,6 +237,16 @@ class User extends Authenticatable
         return self::count();
     }
     
+    public function isThatActive()
+    {
+        if ($this->gender === 0) {
+            return true;
+        }
+        if (!$this->payment->expired_date) {
+            return false;
+        }
+        return Carbon::parse($this->payment->expired_date)->isFuture();
+    }
 
     /********** Scope Functions ******/
 
