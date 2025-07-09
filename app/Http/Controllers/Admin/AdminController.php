@@ -226,7 +226,7 @@ class AdminController extends Controller
                 ->whereNotNull('profile_photo_path')
                 ->get();
 
-        return API::success()->response(UserResource::collection($users));
+        return API::success()->response(UserMeResource::collection($users));
     }
 
     public function approveProfilePhoto(int $userId)
