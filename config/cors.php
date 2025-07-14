@@ -21,9 +21,6 @@ return [
 
     'allowed_origins' => ['*'], // GÜVENLİ DEĞİLSE SADECE FRONTEND URL'İNİ YAZ
 
-    // Örneğin sadece frontend'den gelen istekleri kabul etmek için:
-     'allowed_origins' => ['*'],
-
     'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
